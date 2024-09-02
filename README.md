@@ -1,10 +1,12 @@
-# Information and Instructions
+# Zork
+
+## Authors
+
+- Marc Casanova Torrequebrada.
+
+## Information and Instructions
 
 Project for an apply of a master. Is based on Zork videogame (text adventure game first released in 1977). The development of this project had a duration of seven days.
-
-Author: Marc Casanova Torrequebrada.
-
-GitHub Repository: https://github.com/SirKaza/MyZork
 
 Contains the following files:
 
@@ -35,13 +37,19 @@ zork-project-base/
     └── world.h
 ```
 
-## Guide
+## GitHub Repository
 
-### How to play the game
+[GitHub Repository](https://github.com/SirKaza/MyZork)
 
+## License
 
-### How to finish the game
+This project is licensed under the [MIT License](LICENSE).
 
+## Guide to play
+
+1. Instructions on how to start playing.
+2. Game objectives.
+3. How to finish the game.
 
 ## Versions Used
 
