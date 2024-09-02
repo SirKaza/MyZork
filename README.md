@@ -15,6 +15,7 @@ zork-project-base/
 ├── .gitignore
 ├── .gitattributes
 ├── MyZork.sln
+├── LICENSE
 ├── README.md
 └── MyZork/
     ├── MyZork.vcxproj
