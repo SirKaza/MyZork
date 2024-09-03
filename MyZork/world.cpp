@@ -33,6 +33,13 @@ World::World(const string& playerName) {
 	// ---- Player ----
 	player = new Player(playerName, "An ambitious adventurer.", parking);
 	entities.push_back(player);
+
+	// ---- Items ----
+	Item* car_key = new Item("Car key", "A car key which looks familiar to you.");
+	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.");
+
+	parking->setContains(car_key);
+	forest->setContains(keycard);
 }
 
 World::~World() {
@@ -65,10 +72,14 @@ void World::handleCommand(string& input) {
 	switch (action) {
 		case (Action::Look): 
 			if (args.empty()) { // show room
-				player->getLocation()->display();
+				if (player->getLocation() != nullptr) {
+					player->getLocation()->display();
+				}
 			}
 			else if (args.size() == 1) { // look object
-				string object = args[0];
+				if (args[0] == "me") {
+					player->display();
+				}
 			}
 			else {
 				cout << "I don't understand what you want to look at." << endl;
