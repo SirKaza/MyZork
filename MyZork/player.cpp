@@ -14,3 +14,8 @@ Player::Player(const string& name, const string& description, Room* location)
 Player::~Player() {
 
 }
+
+void Player::display() {
+	cout << name << "\n";
+	cout << description << "\n";
+}
