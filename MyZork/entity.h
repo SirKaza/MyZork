@@ -23,6 +23,8 @@ class Entity
 
 		void virtual display();
 		
+		void setContains(Entity* object);
+		list<Entity*> getContains();
 
 	protected:
 		TypesEntities type;
