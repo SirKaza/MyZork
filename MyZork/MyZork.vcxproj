@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="actions.h" />
     <ClInclude Include="creature.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="exit.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="world.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="actions.cpp" />
     <ClCompile Include="creature.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="exit.cpp" />

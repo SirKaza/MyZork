@@ -2,7 +2,10 @@
 #include "entity.h"
 #include "room.h"
 #include "exit.h"
+#include "creature.h"
 #include "player.h"
+#include "actions.h"
+#include "item.h"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -48,18 +51,58 @@ void World::handleCommand(string& input) {
 		args.push_back(arg);  // Rest as arguments
 	}
 
-	switch (args.size()) {
-		case 0:
-			if (command == "look") {
-				player->display();
+	Action action;
+
+	try {
+		action = stringToAction(command);
+		
+	}
+	catch (const invalid_argument& e) {
+		cout << e.what() << endl; // In case of error
+		return;
+	}
+	//player->display();
+	switch (action) {
+		case (Action::Look): 
+			if (args.empty()) { // show room
+				player->getLocation()->display();
+			}
+			else if (args.size() == 1) { // look object
+				string object = args[0];
+			}
+			else {
+				cout << "I don't understand what you want to look at." << endl;
 			}
 			break;
-		case 1:
+		case (Action::Go):
+
 			break;
-		case 2:
+		case Action::Take:
+
+			break;
+		case Action::Drop:
+
+			break;
+		case Action::Quit: // User wants to quit
+			cout << "Are you sure you want to quit? (yes/no): " << endl;
+			getline(cin, command); // Ask for confirmation
+
+			if (command == "yes" || command == "y") {
+				cout << "Thank you for playing! Goodbye!" << endl;
+				exit(0); // Exit the loop
+			}
+			break;
+		case Action::Inventory:
+
+			break;
+		case Action::Examine:
+
+			break;
+		case Action::Use:
+
 			break;
 		default:
-			cout << "Unknown command." << endl;
+			cout << "That's not a verb I recognise." << endl;
 			break;
 	}
 }
