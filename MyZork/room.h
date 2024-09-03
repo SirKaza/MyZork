@@ -8,8 +8,11 @@ class Room :
     public Entity
 {
     public:
-        Room(string name, string description);
+        Room(const string& name, const string& description);
         ~Room();
+
+        const string& getName() const;
+        const string& getDescription() const;
 };
         
 
