@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Entity::Entity(const string name, const string description) 
+Entity::Entity(const string& name, const string& description) 
 	: name(name), description(description) {
 
 	this->type = TypesEntities::ENTITY;

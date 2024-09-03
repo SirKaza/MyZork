@@ -17,7 +17,7 @@ class Exit :
     public Entity
 {
     public:
-        Exit(const string name, const string description, Direction direction, Room* source, Room* destination);
+        Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination);
         ~Exit();
 
     private:

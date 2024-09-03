@@ -16,7 +16,7 @@ enum class TypesEntities {
 class Entity
 {
 	public:
-		Entity(const string name, const string description);
+		Entity(const string& name, const string& description);
 		virtual ~Entity(); // sons can overwrite
 
 		void virtual Update();

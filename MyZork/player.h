@@ -8,6 +8,8 @@ class Player :
     public Creature
 {
     public:
-        Player(const string name, const string description, Room* location);
+        Player(const string& name, const string& description, Room* location);
         ~Player();
+
+        void display();
 };
