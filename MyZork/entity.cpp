@@ -18,6 +18,6 @@ void Entity::Update() {
 }
 
 void Entity::display() {
-	cout << this->name << "\n";
-	cout << this->description << "\n";
+	cout << name << "\n";
+	cout << description << "\n";
 }

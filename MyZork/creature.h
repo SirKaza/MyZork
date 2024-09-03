@@ -12,6 +12,9 @@ class Creature :
     public:
         Creature(const string& name, const string& description, Room* location);
         ~Creature();
+
+        void display() const;
+        Room* getLocation() const;
         
     protected:
         Room* location;

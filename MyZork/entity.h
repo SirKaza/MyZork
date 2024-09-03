@@ -22,11 +22,12 @@ class Entity
 		void virtual Update();
 
 		void virtual display();
+		
 
 	protected:
 		TypesEntities type;
 		string name;
 		string description;
-		list<Entity*> contains;
+		list<Entity*> contains; // Inventary (player), Room space and containers (chest)
 };
 

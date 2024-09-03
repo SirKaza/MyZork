@@ -14,15 +14,3 @@ Player::Player(const string& name, const string& description, Room* location)
 Player::~Player() {
 
 }
-
-void Player::display() {
-	cout << name << "\n";
-	cout << description << "\n";
-
-	if (location != nullptr) {
-		cout << location->getName() << "\n";
-	}
-	else {
-		cout << "Unknown location" << "\n";
-	}
-}

@@ -10,6 +10,4 @@ class Player :
     public:
         Player(const string& name, const string& description, Room* location);
         ~Player();
-
-        void display();
 };
