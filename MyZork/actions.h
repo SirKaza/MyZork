@@ -16,8 +16,20 @@ enum class Action {
     Use
 };
 
+enum class Direction {
+    North,
+    East,
+    West,
+    South,
+    Up,
+    Down
+};
+
 Action stringToAction(const string& command);
 
 string& toLowerCase(string& input);
+
+Direction stringToDirection(const string& direction);
+string directionToString(Direction direction);
 
 
