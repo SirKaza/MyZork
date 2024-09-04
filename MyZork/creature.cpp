@@ -27,9 +27,20 @@ void Creature::Look() const {
 	}
 }
 
-void Creature::Go(const string& point) {
+void Creature::Go(const string& direction) {
 
 }
+
+
+void Creature::Take(const vector<string>& args) {
+
+}
+
+
+void Creature::Inventory() const {
+
+}
+
 
 Room* Creature::getLocation() const {
 	return location; // could be null

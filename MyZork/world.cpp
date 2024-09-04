@@ -46,10 +46,10 @@ World::World(const string& playerName) {
 	entities.push_back(player);
 
 	// ---- Items ----
-	Item* car_key = new Item("Car key", "A car key which looks familiar to you.");
+	Item* keychain = new Item("Keychain", "There are 2 keys on the keychain, one is a car key and the other is unknown.");
 	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.");
 
-	parking->setContains(car_key);
+	parking->setContains(keychain);
 	forest->setContains(keycard);
 }
 
@@ -93,7 +93,7 @@ void World::handleCommand(string& input) {
 	}
 
 	switch (action) {
-		case (Action::Look): 
+		case (Action::Look): // look room or player
 			if (args.empty()) { // show room
 				if (player->getLocation() != nullptr) {
 					player->getLocation()->Look();
@@ -114,7 +114,7 @@ void World::handleCommand(string& input) {
 			}
 			break;
 
-		case (Action::Go):
+		case (Action::Go): // move through rooms
 			if (args.empty()) { // cardinal points
 				player->Go(command);
 			}
@@ -123,8 +123,8 @@ void World::handleCommand(string& input) {
 			}
 			break;
 
-		case Action::Take:
-
+		case Action::Take: // take items
+			player->Take(args);
 			break;
 
 		case Action::Drop:
@@ -142,7 +142,7 @@ void World::handleCommand(string& input) {
 			break;
 
 		case Action::Inventory:
-
+			player->Inventory();
 			break;
 
 		case Action::Examine:
@@ -152,7 +152,6 @@ void World::handleCommand(string& input) {
 		case Action::Put:
 
 			break;
-
 
 		case Action::Repeat:
 			handleCommand(lastInput);

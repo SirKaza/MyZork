@@ -36,3 +36,29 @@ void Player::Go(const string& direction) {
 	}
 	cout << "There is no exit in that direction.\n";
 }
+
+void Player::Take(const vector<string>& args) {
+	for (string arg : args) {
+		Entity* item = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
+		if (item != nullptr) { // item found
+			contains.push_back(item); // item in player inventory
+			location->removeEntity(item); // pop item from room
+			cout << "You took " << item->getName() << "\n";
+		}
+		else {
+            cout << "That isn't available.\n";
+        }
+	}
+}
+
+void Player::Inventory() const {
+	if (contains.empty()) { // Empty inventory
+		cout << "You are empty handed.\n";
+	}
+	else {
+		cout << "You are carrying:\n";
+		for (Entity* entity : contains) {
+			displayContains(entity, 0);
+		}
+	}
+}

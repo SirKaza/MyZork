@@ -22,12 +22,17 @@ class Entity
 		virtual void Update();
 
 		virtual void Look() const;
+
+		Entity* findEntityByNameAndType(const string& entityName, TypesEntities type);
+		void removeEntity(Entity* entity);
+
+		void displayContains(const Entity* entity, int level) const;
 		
 		void setContains(Entity* object);
 		list<Entity*> getContains() const;
-
 		const string& getName() const;
 		const string& getDescription() const;
+		TypesEntities getType() const;
 
 	protected:
 		TypesEntities type;

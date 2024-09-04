@@ -1,4 +1,5 @@
 #include "entity.h"
+#include "actions.h"
 #include <iostream>
 #include <string>
 
@@ -28,6 +29,24 @@ void Entity::Look() const {
 }
 
 
+Entity* Entity::findEntityByNameAndType(const string& entityName, TypesEntities type) {
+	string name;
+	for (Entity* entity : contains) {
+		if (entity->getType() == type) {
+			name = entity->getName();
+			if (toLowerCase(name) == entityName) {
+				return entity;
+			}
+		}
+	}
+	return nullptr;
+}
+
+void Entity::removeEntity(Entity* entity) {
+	contains.remove(entity);
+}
+
+
 void Entity::setContains(Entity* object) {
 	contains.push_back(object);
 }
@@ -43,4 +62,21 @@ const string& Entity::getName() const {
 
 const string& Entity::getDescription() const {
 	return description;
+}
+
+TypesEntities Entity::getType() const {
+	return type;
+}
+
+void Entity::displayContains(const Entity* entity, int level) const {
+	for (int i = 0; i < level; ++i) {
+		cout << " ";
+	}
+	cout << entity->getName() << "\n";
+
+	if (!entity->getContains().empty()) { // item inside
+		for (const Entity* inside : entity->getContains()) {
+			displayContains(inside, level + 1); // recursion through items inside
+		}
+	}
 }
