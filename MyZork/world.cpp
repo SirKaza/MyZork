@@ -26,11 +26,20 @@ World::World(const string& playerName) {
 	entities.push_back(bunker);
 
 	// ---- Exits ----
-	Exit* exit1 = new Exit("Trail", "Short dirt path.", Direction::EAST, parking, forest);
-	Exit* exit2 = new Exit("Hatch", "Old metal hatch.", Direction::SOUTH, forest, bunker);
+	Exit* trail = new Exit("Trail", "Short dirt path.", Direction::East, parking, forest);
+	Exit* trail2 = new Exit("Trail", "Short dirt path.", Direction::West, forest, parking);
+	Exit* hatch = new Exit("Hatch", "Old metal hatch.", Direction::Down, forest, bunker);
+	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, bunker, forest);
 
-	entities.push_back(exit1);
-	entities.push_back(exit2);
+	entities.push_back(trail);
+	entities.push_back(trail2);
+	entities.push_back(hatch);
+	entities.push_back(stairs);
+
+	parking->setContains(trail);
+	forest->setContains(trail2);
+	forest->setContains(hatch);
+	bunker->setContains(stairs);
 
 	// ---- Player ----
 	player = new Player(playerName, "An ambitious adventurer.", parking);
@@ -45,7 +54,11 @@ World::World(const string& playerName) {
 }
 
 World::~World() {
-
+	for (Entity* entity : entities) {
+		if (entity != nullptr) {
+			delete entity;
+		}
+	}
 }
 
 void World::handleCommand(string& input) {
@@ -102,7 +115,12 @@ void World::handleCommand(string& input) {
 			break;
 
 		case (Action::Go):
-
+			if (args.empty()) { // cardinal points
+				player->Go(command);
+			}
+			else if (args.size() == 1) { // go point
+				player->Go(args[0]);
+			}
 			break;
 
 		case Action::Take:
