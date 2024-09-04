@@ -10,6 +10,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -52,23 +54,27 @@ void World::handleCommand(string& input) {
 	vector<string> args;
 
 	iss >> command;  // First token as a command
+	toLowerCase(command);
 
 	string arg;
 	while (iss >> arg) {
 		args.push_back(arg);  // Rest as arguments
 	}
 
+	for (string& arg : args) { // args lowercase
+		toLowerCase(arg);
+	}
+
 	Action action;
 
 	try {
 		action = stringToAction(command);
-		
 	}
 	catch (const invalid_argument& e) {
 		cout << e.what() << endl; // In case of error
 		return;
 	}
-	//player->display();
+
 	switch (action) {
 		case (Action::Look): 
 			if (args.empty()) { // show room
@@ -77,23 +83,32 @@ void World::handleCommand(string& input) {
 				}
 			}
 			else if (args.size() == 1) { // look object
-				if (args[0] == "me") {
+				string playerName = player->getName();
+				toLowerCase(playerName);
+				if (args[0] == "me" || args[0] == "myself" || args[0] == playerName) {
 					player->display();
+				}
+				else {
+					cout << "I don't understand what you want to look at." << endl;
 				}
 			}
 			else {
-				cout << "I don't understand what you want to look at." << endl;
+				cout << "Too many things." << endl;
 			}
 			break;
+
 		case (Action::Go):
 
 			break;
+
 		case Action::Take:
 
 			break;
+
 		case Action::Drop:
 
 			break;
+
 		case Action::Quit: // User wants to quit
 			cout << "Are you sure you want to quit? (yes/no): " << endl;
 			getline(cin, command); // Ask for confirmation
@@ -103,15 +118,23 @@ void World::handleCommand(string& input) {
 				exit(0); // Exit the loop
 			}
 			break;
+
 		case Action::Inventory:
 
 			break;
+
 		case Action::Examine:
 
 			break;
+
+		case Action::Put:
+
+			break;
+
 		case Action::Use:
 
 			break;
+
 		default:
 			cout << "That's not a verb I recognise." << endl;
 			break;
