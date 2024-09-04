@@ -1,5 +1,6 @@
 #include "entity.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -32,6 +33,14 @@ void Entity::setContains(Entity* object) {
 }
 
 
-list<Entity*> Entity::getContains() {
+list<Entity*> Entity::getContains() const {
 	return contains;
+}
+
+const string& Entity::getName() const {
+	return name;
+}
+
+const string& Entity::getDescription() const {
+	return description;
 }

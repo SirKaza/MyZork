@@ -24,7 +24,10 @@ class Entity
 		void virtual display();
 		
 		void setContains(Entity* object);
-		list<Entity*> getContains();
+		list<Entity*> getContains() const;
+
+		const string& getName() const;
+		const string& getDescription() const;
 
 	protected:
 		TypesEntities type;
