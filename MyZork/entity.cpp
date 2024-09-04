@@ -8,7 +8,7 @@ using namespace std;
 Entity::Entity(const string& name, const string& description) 
 	: name(name), description(description) {
 
-	this->type = TypesEntities::ENTITY;
+	this->type = TypesEntities::Entity;
 }
 
 
@@ -22,7 +22,7 @@ void Entity::Update() {
 }
 
 
-void Entity::display() {
+void Entity::Look() const {
 	cout << name << "\n";
 	cout << description << "\n";
 }

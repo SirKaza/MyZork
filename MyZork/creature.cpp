@@ -8,14 +8,14 @@ using namespace std;
 Creature::Creature(const string& name, const string& description, Room* location)
 	: Entity(name, description), location(location) {
 
-	this->type = TypesEntities::CREATURE;
+	this->type = TypesEntities::Creature;
 }
 
 Creature::~Creature() {
 
 }
 
-void Creature::display() const {
+void Creature::Look() const {
 	cout << name << "\n";
 	cout << description << "\n";
 
@@ -23,8 +23,12 @@ void Creature::display() const {
 		cout << location->getName() << "\n";
 	}
 	else {
-		cout << "Unknown location" << "\n";
+		cout << "Unknown location\n";
 	}
+}
+
+void Creature::Go(const string& point) {
+
 }
 
 Room* Creature::getLocation() const {

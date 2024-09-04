@@ -11,7 +11,7 @@ class Room :
         Room(const string& name, const string& description);
         ~Room();
 
-        void display();
+        void Look() const;
 
         const string& getName() const;
         const string& getDescription() const;

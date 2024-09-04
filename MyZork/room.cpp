@@ -8,7 +8,7 @@ using namespace std;
 Room::Room(const string& name, const string& description) 
 	: Entity(name, description) {
 
-	this->type = TypesEntities::ROOM;
+	this->type = TypesEntities::Room;
 }
 
 
@@ -17,12 +17,12 @@ Room::~Room() {
 }
 
 
-void Room::display() {
+void Room::Look() const {
 	cout << name << "\n";
 	cout << description << "\n";
 
 	for (Entity* entity : contains) {
-		entity->display();
+		entity->Look();
 	}
 }
 

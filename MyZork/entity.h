@@ -5,12 +5,12 @@
 using namespace std;
 
 enum class TypesEntities {
-	ENTITY,
-	CREATURE,
-	EXIT,
-	ROOM,
-	ITEM,
-	PLAYER
+	Entity,
+	Creature,
+	Exit,
+	Room,
+	Item,
+	Player
 };
 
 class Entity
@@ -19,9 +19,9 @@ class Entity
 		Entity(const string& name, const string& description);
 		virtual ~Entity(); // sons can overwrite
 
-		void virtual Update();
+		virtual void Update();
 
-		void virtual display();
+		virtual void Look() const;
 		
 		void setContains(Entity* object);
 		list<Entity*> getContains() const;

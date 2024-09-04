@@ -13,8 +13,11 @@ class Creature :
         Creature(const string& name, const string& description, Room* location);
         ~Creature();
 
-        void display() const;
+        virtual void Look() const;
+        virtual void Go(const string& point);
+
         Room* getLocation() const;
+        
         
     protected:
         Room* location;
