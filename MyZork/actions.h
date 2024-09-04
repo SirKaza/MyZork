@@ -11,9 +11,12 @@ enum class Action {
     Quit,
     Inventory,
     Examine,
+    Put,
     Use
 };
 
 Action stringToAction(const string& command);
+
+string& toLowerCase(string& input);
 
 
