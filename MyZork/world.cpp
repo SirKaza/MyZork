@@ -75,18 +75,22 @@ void World::handleCommand(string& input) {
 		return;
 	}
 
+	if (action != Action::Repeat) { // Save last input
+		lastInput = input;
+	}
+
 	switch (action) {
 		case (Action::Look): 
 			if (args.empty()) { // show room
 				if (player->getLocation() != nullptr) {
-					player->getLocation()->display();
+					player->getLocation()->Look();
 				}
 			}
 			else if (args.size() == 1) { // look object
 				string playerName = player->getName();
 				toLowerCase(playerName);
 				if (args[0] == "me" || args[0] == "myself" || args[0] == playerName) {
-					player->display();
+					player->Look();
 				}
 				else {
 					cout << "I don't understand what you want to look at." << endl;
@@ -129,6 +133,11 @@ void World::handleCommand(string& input) {
 
 		case Action::Put:
 
+			break;
+
+
+		case Action::Repeat:
+			handleCommand(lastInput);
 			break;
 
 		case Action::Use:

@@ -14,6 +14,7 @@ Action stringToAction(const string& command) {
 	else if (command == "inventory" || command == "i") return Action::Inventory;
 	else if (command == "examine") return Action::Examine;
 	else if (command == "put") return Action::Put;
+	else if (command == "g") return Action::Repeat;
 	else if (command == "use") return Action::Use;
 	else throw invalid_argument("Unknown command: " + command);
 }

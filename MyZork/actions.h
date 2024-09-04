@@ -12,6 +12,7 @@ enum class Action {
     Inventory,
     Examine,
     Put,
+    Repeat,
     Use
 };
 
