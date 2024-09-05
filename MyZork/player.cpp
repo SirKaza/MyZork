@@ -7,8 +7,8 @@
 
 using namespace std;
 
-Player::Player(const string& name, const string& description, Room* location, const bool isContainer)
-	: Creature(name, description, location, isContainer) {
+Player::Player(const string& name, const string& description, Room* location, const bool isContainer, const string& examineText)
+	: Creature(name, description, location, isContainer, examineText) {
 
 	this->type = TypesEntities::Player;
 }
@@ -47,7 +47,7 @@ void Player::Take(const vector<string>& args) {
 		list<Entity*> items = location->getContainsByType(TypesEntities::Item);
 
 		if (items.empty()) { // room empty of items
-			cout << "There are no items to take.\n";
+			cout << "There is nothing to take.\n";
 			return;
 		}
 
@@ -57,7 +57,7 @@ void Player::Take(const vector<string>& args) {
 			cout << "You took " << item->getName() << ".\n";
 		}
 	}
-	else { // take specific item
+	else { // take specific items
 		bool flag = false;
 		for (string arg : args) {
 			Entity* item = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
@@ -87,52 +87,86 @@ void Player::Inventory() const {
 }
 
 void Player::Drop(const vector<string>& args) {
-	bool flag = false;
-	for (string arg : args) {
-		Entity* item = findEntityByNameAndType(arg, TypesEntities::Item); // player only can drop items
-		if (item != nullptr) { // item found
-			flag = true;
-			removeEntity(item); // remove from inventory
-			location->setContains(item); // add to room
+	if (args[0] == "all" || args[0] == "everything") { // take all items in room
+		list<Entity*> items = getContains(); // get inventory
+
+		if (items.empty()) { // player empty of items
+			cout << "There is nothing to drop.\n";
+			return;
+		}
+
+		for (Entity* item : items) {
+			removeEntity(item);
+			location->setContains(item);
 			cout << "You dropped " << item->getName() << ".\n";
 		}
 	}
-	if (flag == false) {
-		cout << "You haven't got that.\n";
+	else { // drop specific item
+		bool flag = false;
+		for (string arg : args) {
+			Entity* item = findEntityByName(arg); // player only can drop items
+			if (item != nullptr) { // item found
+				flag = true;
+				removeEntity(item); // remove from inventory
+				location->setContains(item); // add to room
+				cout << "You dropped " << item->getName() << ".\n";
+			}
+		}
+		if (flag == false) {
+			cout << "You haven't got that.\n";
+		}
 	}
 }
 
-void Player::Put(const string& item, const string& container) {
-	Entity* itemFounded = findEntityByNameAndType(item, TypesEntities::Item); // find item in inventory
+void Player::Put(const vector<string>& args) {
+	vector<string> argsCopy = args;
 
-	if (itemFounded == nullptr) { // item found
-		cout << "You don't have " << item << ".\n";
+	Entity* itemFounded = nullptr;
+	for (auto it = argsCopy.begin(); it != argsCopy.end();) {
+		itemFounded = findEntityByNameAndType(*it, TypesEntities::Item); // find item in inventory
+		it = argsCopy.erase(it);
+		if (itemFounded != nullptr) { // item found
+			break;
+		}
+		
+	}
+	if (itemFounded == nullptr) { // no item found in args
+		cout << "You can't see any such thing.\n";
 		return;
 	}
 
-	Entity* containerFounded = findEntityByNameAndType(container, TypesEntities::Item); // find container in inventory
-	if (containerFounded != nullptr) {
-		if (containerFounded->getIsContainer()) {
-			containerFounded->setContains(itemFounded);
-			removeEntity(itemFounded);
-			cout << "You put " << itemFounded->getName() << " in " << containerFounded->getName() << ".\n";
+	Entity* containerFounded = nullptr;
+	set<TypesEntities> itemTypes = {TypesEntities::Item, TypesEntities::Entity}; // containers can be entities or items
+	for (auto it = argsCopy.begin(); it != argsCopy.end(); ++it) {
+		containerFounded = findEntityByNameAndTypes(*it, itemTypes); // find container in inventory
+		if (containerFounded != nullptr) { // item found
+			if (containerFounded->getIsContainer()) {
+				containerFounded->setContains(itemFounded);
+				removeEntity(itemFounded);
+				cout << "You put " << itemFounded->getName() << " in " << containerFounded->getName() << ".\n";
+				return;
+			}
+			cout << "That can't contain things.\n";
 			return;
 		}
-		cout << "That can't contain things.\n";
-		return;
 	}
 
-	containerFounded = location->findEntityByNameAndType(container, TypesEntities::Item); // find container in room
-	if (containerFounded != nullptr) {
-		if (containerFounded->getIsContainer()) {
-			containerFounded->setContains(itemFounded);
-			removeEntity(itemFounded);
-			cout << "You put " << itemFounded->getName() << " in " << containerFounded->getName() << ".\n";
+	for (auto it = argsCopy.begin(); it != argsCopy.end(); ++it) {
+		containerFounded = location->findEntityByNameAndTypes(*it, itemTypes); // find container in room
+		if (containerFounded != nullptr) {
+			if (containerFounded->getIsContainer()) {
+				containerFounded->setContains(itemFounded);
+				removeEntity(itemFounded);
+				cout << "You put " << itemFounded->getName() << " in " << containerFounded->getName() << ".\n";
+				return;
+			}
+			cout << "That can't contain things.\n";
 			return;
 		}
-		cout << "That can't contain things.\n";
-		return;
 	}
+	cout << "You can't see any such thing.?\n";
+}
 
-	cout << container << " not available.\n";
+void Player::Examine(const vector<string>& args) {
+
 }
