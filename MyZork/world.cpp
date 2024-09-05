@@ -193,7 +193,7 @@ void World::handleCommand(string& input) {
 			else if (command == "") {
 				cout << "I beg your pardon?" << endl;
 			}
-			else if (command == "Zork") {
+			else if (command == "zork") {
 				cout << "At your service!" << endl;
 			}
 			else if (command == "jump") {
