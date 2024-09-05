@@ -45,7 +45,7 @@ Entity* Entity::findEntityByName(const string& entityName) {
 
 }
 
-Entity* Entity::findEntityByNameAndType(const string& entityName, TypesEntities type) {
+Entity* Entity::findEntityByNameAndType(const string& entityName, const TypesEntities type) {
 	string name;
 	for (Entity* entity : contains) {
 		name = entity->getName();
@@ -58,7 +58,7 @@ Entity* Entity::findEntityByNameAndType(const string& entityName, TypesEntities 
 	return nullptr;
 }
 
-Entity* Entity::findEntityByNameAndTypes(const string& entityName, set<TypesEntities>& types) {
+Entity* Entity::findEntityByNameAndTypes(const string& entityName, const set<TypesEntities>& types) {
 	string name;
 	for (Entity* entity : contains) {
 		name = entity->getName();

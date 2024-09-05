@@ -26,8 +26,8 @@ class Entity
 		virtual void Examine() const;
 
 		Entity* findEntityByName(const string& entityName);
-		Entity* findEntityByNameAndType(const string& entityName, TypesEntities type);
-		Entity* findEntityByNameAndTypes(const string& entityName, set<TypesEntities>& types);
+		Entity* findEntityByNameAndType(const string& entityName, const TypesEntities type);
+		Entity* findEntityByNameAndTypes(const string& entityName, const set<TypesEntities>& types);
 		void removeEntity(Entity* entity);
 
 		void displayContains(const Entity* entity, int level) const;
@@ -51,5 +51,6 @@ class Entity
 
 		const bool isContainer; // flag for entities that are able to use contains
 		string examineText;
+		const set<TypesEntities> containerTypes = { TypesEntities::Item, TypesEntities::Entity }; // containers can be entities or items
 };
 
