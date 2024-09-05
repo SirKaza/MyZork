@@ -16,7 +16,7 @@ enum class TypesEntities {
 class Entity
 {
 	public:
-		Entity(const string& name, const string& description);
+		Entity(const string& name, const string& description, const bool isContainer);
 		virtual ~Entity(); // sons can overwrite
 
 		virtual void Update();
@@ -32,7 +32,7 @@ class Entity
 		list<Entity*> getContains() const;
 		list<Entity*> getContainsByType(TypesEntities type) const;
 
-
+		const bool getIsContainer() const;
 		const string& getName() const;
 		const string& getDescription() const;
 		TypesEntities getType() const;
@@ -42,5 +42,7 @@ class Entity
 		string name;
 		string description;
 		list<Entity*> contains; // Inventary (player), Room space and containers (chest)
+
+		const bool isContainer; // flag for entities that are able to use contains
 };
 

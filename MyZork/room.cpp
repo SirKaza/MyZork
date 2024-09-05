@@ -5,8 +5,8 @@
 using namespace std;
 
 
-Room::Room(const string& name, const string& description) 
-	: Entity(name, description) {
+Room::Room(const string& name, const string& description, const bool isContainer) 
+	: Entity(name, description, isContainer) {
 
 	this->type = TypesEntities::Room;
 }

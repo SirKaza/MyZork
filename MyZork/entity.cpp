@@ -6,8 +6,8 @@
 using namespace std;
 
 
-Entity::Entity(const string& name, const string& description) 
-	: name(name), description(description) {
+Entity::Entity(const string& name, const string& description, const bool isContainer) 
+	: name(name), description(description), isContainer(isContainer) {
 
 	this->type = TypesEntities::Entity;
 }
@@ -65,6 +65,10 @@ list<Entity*> Entity::getContainsByType(TypesEntities type) const {
 		}
 	}
 	return filteredEntities;
+}
+
+const bool Entity::getIsContainer() const {
+	return isContainer;
 }
 
 const string& Entity::getName() const {

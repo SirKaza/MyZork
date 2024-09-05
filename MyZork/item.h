@@ -8,7 +8,7 @@ class Item :
     public Entity
 {
     public:
-        Item(const string& name, const string& description);
+        Item(const string& name, const string& description, const bool isContainer);
         ~Item();
 };
 

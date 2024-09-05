@@ -7,8 +7,8 @@
 
 using namespace std;
 
-Player::Player(const string& name, const string& description, Room* location) 
-	: Creature(name, description, location) {
+Player::Player(const string& name, const string& description, Room* location, const bool isContainer)
+	: Creature(name, description, location, isContainer) {
 
 	this->type = TypesEntities::Player;
 }
@@ -58,16 +58,18 @@ void Player::Take(const vector<string>& args) {
 		}
 	}
 	else { // take specific item
+		bool flag = false;
 		for (string arg : args) {
 			Entity* item = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
 			if (item != nullptr) { // item found
+				flag = true;
 				setContains(item); // item in player inventory
 				location->removeEntity(item); // pop item from room
 				cout << "You took " << item->getName() << ".\n";
 			}
-			else {
-				cout << "That isn't available.\n";
-			}
+		}
+		if (flag == false) { // no item found
+			cout << "That isn't available.\n";
 		}
 	}
 }
@@ -85,15 +87,52 @@ void Player::Inventory() const {
 }
 
 void Player::Drop(const vector<string>& args) {
+	bool flag = false;
 	for (string arg : args) {
 		Entity* item = findEntityByNameAndType(arg, TypesEntities::Item); // player only can drop items
 		if (item != nullptr) { // item found
+			flag = true;
 			removeEntity(item); // remove from inventory
 			location->setContains(item); // add to room
 			cout << "You dropped " << item->getName() << ".\n";
 		}
-		else {
-			cout << "You haven't got that.\n";
-		}
 	}
+	if (flag == false) {
+		cout << "You haven't got that.\n";
+	}
+}
+
+void Player::Put(const string& item, const string& container) {
+	Entity* itemFounded = findEntityByNameAndType(item, TypesEntities::Item); // find item in inventory
+
+	if (itemFounded == nullptr) { // item found
+		cout << "You don't have " << item << ".\n";
+		return;
+	}
+
+	Entity* containerFounded = findEntityByNameAndType(container, TypesEntities::Item); // find container in inventory
+	if (containerFounded != nullptr) {
+		if (containerFounded->getIsContainer()) {
+			containerFounded->setContains(itemFounded);
+			removeEntity(itemFounded);
+			cout << "You put " << itemFounded->getName() << " in " << containerFounded->getName() << ".\n";
+			return;
+		}
+		cout << "That can't contain things.\n";
+		return;
+	}
+
+	containerFounded = location->findEntityByNameAndType(container, TypesEntities::Item); // find container in room
+	if (containerFounded != nullptr) {
+		if (containerFounded->getIsContainer()) {
+			containerFounded->setContains(itemFounded);
+			removeEntity(itemFounded);
+			cout << "You put " << itemFounded->getName() << " in " << containerFounded->getName() << ".\n";
+			return;
+		}
+		cout << "That can't contain things.\n";
+		return;
+	}
+
+	cout << container << " not available.\n";
 }
