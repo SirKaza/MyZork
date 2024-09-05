@@ -23,31 +23,52 @@ void Player::Look() const {
 }
 
 void Player::Go(const string& direction) {
+	Direction dir = stringToDirection(direction);
+
+	if (dir == Direction::None) {
+		cout << "That is not a valid direction.\n";
+		return;
+	}
+
 	for (Entity* entity : location->getContains()) {
 		Exit* exit = dynamic_cast<Exit*>(entity); // try downcast to Exit
 
-		if (exit != nullptr) { // Exit
-			if (exit->getDirection() == stringToDirection(direction)) {
-				location = exit->getDestination(); // Update player location
-				cout << "You go " << directionToString(exit->getDirection()) << " and arrive to the " << location->getName() << ".\n";
-				return;
-			}
+		if (exit != nullptr && exit->getDirection() == dir) {
+			location = exit->getDestination(); // Update player location
+			cout << "You go " << directionToString(exit->getDirection()) << " and arrive to the " << location->getName() << ".\n";
+			return;
 		}
 	}
 	cout << "There is no exit in that direction.\n";
 }
 
 void Player::Take(const vector<string>& args) {
-	for (string arg : args) {
-		Entity* item = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
-		if (item != nullptr) { // item found
-			contains.push_back(item); // item in player inventory
-			location->removeEntity(item); // pop item from room
+	if (args[0] == "all" || args[0] == "everything") { // take all items in room
+		list<Entity*> items = location->getContainsByType(TypesEntities::Item);
+
+		if (items.empty()) { // room empty of items
+			cout << "There are no items to take.\n";
+			return;
+		}
+
+		for (Entity* item : items) {
+			setContains(item); 
+			location->removeEntity(item);
 			cout << "You took " << item->getName() << ".\n";
 		}
-		else {
-            cout << "That isn't available.\n";
-        }
+	}
+	else { // take specific item
+		for (string arg : args) {
+			Entity* item = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
+			if (item != nullptr) { // item found
+				setContains(item); // item in player inventory
+				location->removeEntity(item); // pop item from room
+				cout << "You took " << item->getName() << ".\n";
+			}
+			else {
+				cout << "That isn't available.\n";
+			}
+		}
 	}
 }
 

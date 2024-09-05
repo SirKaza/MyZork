@@ -110,12 +110,15 @@ void World::handleCommand(string& input) {
 				}
 			}
 			else {
-				cout << "Too many things." << endl;
+				cout << "Too many things to look at." << endl;
 			}
 			break;
 
 		case (Action::Go): // move through rooms
-			if (args.empty()) { // cardinal points
+			if (args.empty() && command == "go") { 
+				cout << "You'll have to say which compass direction to go in.\n";
+			}
+			else if (args.empty() && command != "go") { // cardinal points
 				player->Go(command);
 			}
 			else if (args.size() == 1) { // go point
@@ -124,11 +127,21 @@ void World::handleCommand(string& input) {
 			break;
 
 		case Action::Take: // take items
-			player->Take(args);
+			if (!args.empty()) {
+				player->Take(args);
+			}
+			else {
+				cout << "What do you want to take?\n";
+			}
 			break;
 
 		case Action::Drop:
-			player->Drop(args);
+			if (!args.empty()) {
+				player->Drop(args);
+			}
+			else {
+				cout << "What do you want to drop?\n";
+			}
 			break;
 
 		case Action::Quit: // User wants to quit
