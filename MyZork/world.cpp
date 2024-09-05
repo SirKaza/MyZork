@@ -128,7 +128,7 @@ void World::handleCommand(string& input) {
 			break;
 
 		case Action::Drop:
-
+			player->Drop(args);
 			break;
 
 		case Action::Quit: // User wants to quit

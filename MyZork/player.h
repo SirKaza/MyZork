@@ -15,4 +15,5 @@ class Player :
         void Go(const string& direction);
         void Take(const vector<string>& args);
         void Inventory() const;
+        void Drop(const vector<string>& args);
 };

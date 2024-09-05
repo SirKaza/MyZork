@@ -42,6 +42,11 @@ void Creature::Inventory() const {
 }
 
 
+void Creature::Drop(const vector<string>& args) {
+
+}
+
+
 Room* Creature::getLocation() const {
 	return location; // could be null
 }
