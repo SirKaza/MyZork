@@ -56,6 +56,17 @@ list<Entity*> Entity::getContains() const {
 	return contains;
 }
 
+list<Entity*> Entity::getContainsByType(TypesEntities type) const {
+	list<Entity*> filteredEntities;
+
+	for (Entity* entity : contains) {
+		if (entity->getType() == type) {
+			filteredEntities.push_back(entity);
+		}
+	}
+	return filteredEntities;
+}
+
 const string& Entity::getName() const {
 	return name;
 }

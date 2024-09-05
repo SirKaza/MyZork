@@ -30,6 +30,9 @@ class Entity
 		
 		void setContains(Entity* object);
 		list<Entity*> getContains() const;
+		list<Entity*> getContainsByType(TypesEntities type) const;
+
+
 		const string& getName() const;
 		const string& getDescription() const;
 		TypesEntities getType() const;
