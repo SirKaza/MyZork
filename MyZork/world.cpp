@@ -17,19 +17,19 @@ using namespace std;
 
 World::World(const string& playerName) {
 	// ---- Rooms ----
-	Room* parking = new Room("Parking", "You are in a parking lot in which there is only one car.", true);
-	Room* forest = new Room("Forest", "You are in a forest next to a river.", true);
-	Room* bunker = new Room("Bunker", "You are in the hall of the bunker.", true);
+	Room* parking = new Room("Parking", "You are in a parking lot in which there is only one car.", true, "The parking lot is dimly lit, and you can see a single car parked here. It's quite dusty, as if no one has visited in a while.");
+	Room* forest = new Room("Forest", "You are in a forest next to a river.", true, "Tall trees surround you, their leaves whispering in the gentle breeze. The sound of the nearby river is soothing, and the ground is carpeted with soft moss.");
+	Room* bunker = new Room("Bunker", "You are in the hall of the bunker.", true, "The bunker feels cold, dark and damp. Metal beams support the structure and there is a sinister atmosphere.");
 
 	entities.push_back(parking);
 	entities.push_back(forest);
 	entities.push_back(bunker);
 
 	// ---- Exits ----
-	Exit* trail = new Exit("Trail", "Short dirt path.", Direction::East, parking, forest, false);
-	Exit* trail2 = new Exit("Trail", "Short dirt path.", Direction::West, forest, parking, false);
-	Exit* hatch = new Exit("Hatch", "Old metal hatch.", Direction::Down, forest, bunker, false);
-	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, bunker, forest, false);
+	Exit* trail = new Exit("Trail", "Short dirt path.", Direction::East, parking, forest, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading east.");
+	Exit* trail2 = new Exit("Trail", "Short dirt path.", Direction::West, forest, parking, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading west.");
+	Exit* hatch = new Exit("Hatch", "Old metal hatch.", Direction::Down, forest, bunker, false, "The old metal hatch is heavily rusted, with a few faint scratches visible. It looks like it hasn't been opened in ages.");
+	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, bunker, forest, false, "The old stone stairs are worn and uneven. Some stones are chipped, and the surface feels cool to the touch.");
 
 	entities.push_back(trail);
 	entities.push_back(trail2);
@@ -46,9 +46,9 @@ World::World(const string& playerName) {
 	entities.push_back(player);
 
 	// ---- Items ----
-	Item* keychain = new Item("Keychain", "There are 2 keys on the keychain, one is a car key and the other is unknown.", false);
-	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.", false);
-	Item* box = new Item("Box", "A simple wooden box.", true);
+	Item* keychain = new Item("Keychain", "There are 2 keys on the keychain, one is a car key and the other is unknown.", false, "The keychain is well-used, with two keys hanging from it. The car key is slightly larger than the other, which has a unique shape.");
+	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.", false, "This key card is covered in dirt and the logo is barely visible. It probably opens something old too.");
+	Item* box = new Item("Box", "A small metal box.", true, "The small metal box is cold and heavy. It has intricate designs carved into its surface and a small, peculiarly shaped lock on the front.");
 
 	parking->setContains(keychain);
 	forest->setContains(keycard);
@@ -161,15 +161,21 @@ void World::handleCommand(string& input) {
 			break;
 
 		case Action::Examine:
-
+			if (!args.empty()) {
+				player->Examine(args);
+			}
+			else {
+				cout << "What do you want to examine?\n";
+			}
+			
 			break;
 
 		case Action::Put:
 			if (args.size() > 1) {
-				player->Put(args.front(), args.back());
+				player->Put(args);
 			}
 			else if (args.size() == 1) {
-				cout << "What do you want to put the welcome " << args[0] << " in?\n";
+				cout << "What do you want to put " << args[0] << " in?\n";
 			}
 			else {
 				cout << "What do you want to put?\n";
@@ -178,6 +184,10 @@ void World::handleCommand(string& input) {
 
 		case Action::Repeat:
 			handleCommand(lastInput);
+			break;
+
+		case Action::Scream:
+			cout << "Aaaarrrrgggghhhh!" << endl;
 			break;
 
 		case Action::Use:

@@ -18,6 +18,7 @@ class World
 	private:
 		list<Entity*> entities;
 		Player* player;
+
 		string lastInput; // Repeat case
 };
 

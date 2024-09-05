@@ -5,8 +5,8 @@
 
 using namespace std;
 
-Creature::Creature(const string& name, const string& description, Room* location, const bool isContainer)
-	: Entity(name, description, isContainer), location(location) {
+Creature::Creature(const string& name, const string& description, Room* location, const bool isContainer, const string& examineText)
+	: Entity(name, description, isContainer, examineText), location(location) {
 
 	this->type = TypesEntities::Creature;
 }
@@ -46,7 +46,11 @@ void Creature::Drop(const vector<string>& args) {
 
 }
 
-void Creature::Put(const string& item, const string& container) {
+void Creature::Put(const vector<string>& args) {
+
+}
+
+void Creature::Examine(const vector<string>& args) {
 
 }
 

@@ -2,8 +2,8 @@
 
 using namespace std;
 
-Item::Item(const string& name, const string& description, const bool isContainer)
-	: Entity(name, description, isContainer) {
+Item::Item(const string& name, const string& description, const bool isContainer, const string& examineText)
+	: Entity(name, description, isContainer, examineText) {
 
 	this->type = TypesEntities::Item;
 }
