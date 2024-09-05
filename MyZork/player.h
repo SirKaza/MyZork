@@ -1,6 +1,7 @@
 #pragma once
 #include "creature.h"
 #include <string>
+#include <set>
 
 using namespace std;
 
