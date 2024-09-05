@@ -34,7 +34,7 @@ Direction stringToDirection(const string& direction) {
 	else if (direction == "west" || direction == "w") return Direction::West;
 	else if (direction == "up" || direction == "u") return Direction::Up;
 	else if (direction == "down" || direction == "d") return Direction::Down;
-	else throw invalid_argument("Unknown direction: " + direction);
+	else return Direction::None;
 }
 
 

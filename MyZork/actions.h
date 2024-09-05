@@ -22,7 +22,8 @@ enum class Direction {
     West,
     South,
     Up,
-    Down
+    Down,
+    None
 };
 
 Action stringToAction(const string& command);
