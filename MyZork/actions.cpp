@@ -16,7 +16,7 @@ Action stringToAction(const string& command) {
 	else if (command == "examine") return Action::Examine;
 	else if (command == "put") return Action::Put;
 	else if (command == "g") return Action::Repeat;
-	else if (command == "shout" || command == "yell" || command == "scream") return Action::Scream;
+	else if (command == "shout" || command == "yell" || command == "scream" || command == "" || command == "Zork" || command == "jump") return Action::Extra;
 	else if (command == "use") return Action::Use;
 	else throw invalid_argument("Unknown command: " + command);
 }

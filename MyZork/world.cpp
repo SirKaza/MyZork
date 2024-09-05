@@ -165,7 +165,7 @@ void World::handleCommand(string& input) {
 				player->Examine(args);
 			}
 			else {
-				cout << "What do you want to examine?\n";
+				cout << "What do you want to examine?" << endl;
 			}
 			
 			break;
@@ -175,10 +175,10 @@ void World::handleCommand(string& input) {
 				player->Put(args);
 			}
 			else if (args.size() == 1) {
-				cout << "What do you want to put " << args[0] << " in?\n";
+				cout << "What do you want to put " << args[0] << " in?" << endl;
 			}
 			else {
-				cout << "What do you want to put?\n";
+				cout << "What do you want to put?" << endl;
 			}
 			break;
 
@@ -186,8 +186,19 @@ void World::handleCommand(string& input) {
 			handleCommand(lastInput);
 			break;
 
-		case Action::Scream:
-			cout << "Aaaarrrrgggghhhh!" << endl;
+		case Action::Extra:
+			if (command == "shout" || command == "yell" || command == "scream") {
+				cout << "Aaaarrrrgggghhhh!" << endl;
+			}
+			else if (command == "") {
+				cout << "I beg your pardon?" << endl;
+			}
+			else if (command == "Zork") {
+				cout << "At your service!" << endl;
+			}
+			else if (command == "jump") {
+				cout << "Are you proud of yourself?" << endl;
+			}
 			break;
 
 		case Action::Use:

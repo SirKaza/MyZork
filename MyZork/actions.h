@@ -13,7 +13,7 @@ enum class Action {
     Examine,
     Put,
     Repeat,
-    Scream,
+    Extra,
     Use
 };
 
