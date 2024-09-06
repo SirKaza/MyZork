@@ -19,4 +19,6 @@ class Player :
         void Drop(const vector<string>& args);
         void Put(const vector<string>& args);
         void Examine(const vector<string>& args);
+
+        void examineEntity(Entity* entity) const;
 };

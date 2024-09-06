@@ -104,18 +104,18 @@ void Player::Take(const vector<string>& args) {
 		setContains(itemFound);
 		cout << "You took " << itemFound->getName() << " from " << containerFound->getName() << ".\n";
 	}
-	else { // take specific items to inventory
-		bool flag = false;
+	else { // take specific item/s to inventory
+		bool takeSomething = false;
 		for (string arg : args) {
 			Entity* item = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
 			if (item != nullptr) { // item found
-				flag = true;
+				takeSomething = true;
 				setContains(item); // item in player inventory
 				location->removeEntity(item); // pop item from room
 				cout << "You took " << item->getName() << ".\n";
 			}
 		}
-		if (flag == false) { // no item found
+		if (takeSomething == false) { // no item found
 			cout << "That isn't available.\n";
 		}
 	}
@@ -148,18 +148,18 @@ void Player::Drop(const vector<string>& args) {
 			cout << "You dropped " << item->getName() << ".\n";
 		}
 	}
-	else { // drop specific item
-		bool flag = false;
+	else { // drop specific item/s
+		bool dropSomething = false;
 		for (string arg : args) {
 			Entity* item = findEntityByName(arg); // player only can drop items
 			if (item != nullptr) { // item found
-				flag = true;
+				dropSomething = true;
 				removeEntity(item); // remove from inventory
 				location->setContains(item); // add to room
 				cout << "You dropped " << item->getName() << ".\n";
 			}
 		}
-		if (flag == false) {
+		if (!dropSomething) {
 			cout << "You haven't got that.\n";
 		}
 	}
@@ -210,6 +210,45 @@ void Player::Put(const vector<string>& args) {
 	cout << "You can't see any such thing.\n";
 }
 
-void Player::Examine(const vector<string>& args) {
-	// find name, get Type and examine / if container print contains
+void Player::Examine(const vector<string>& args) { 	// if container print contains
+	bool foundSomething = false;
+
+	for (const string& arg : args) {
+		Entity* entity = findEntityByName(arg); // entity in inventory (item)
+		if (entity != nullptr) { //entity found
+			examineEntity(entity);
+			foundSomething = true;
+			continue;
+		}
+		entity = location->findEntityByName(arg); // entity in room (item, entity, creature, exit)
+		if (entity != nullptr) { //entity found
+			examineEntity(entity);
+			foundSomething = true;
+			continue;
+		}
+		if (toLowerCase(location->getName()) == arg) { // entity is room
+			location->Examine();
+			foundSomething = true;
+			continue;
+		}
+	}
+	if (!foundSomething) {
+		cout << "You can't see any such thing.\n";
+	}
+}
+
+void Player::examineEntity(Entity* entity) const {
+	entity->Examine();
+
+	if (entity->getIsContainer()) {
+		if (entity->getContains().empty()) {
+			cout << entity->getName() << " is empty.\n";
+		}
+		else {
+			cout << entity->getName() << " contains:\n";
+			for (Entity* entity : entity->getContains()) {
+				displayContains(entity, 0);
+			}
+		}
+	}
 }
