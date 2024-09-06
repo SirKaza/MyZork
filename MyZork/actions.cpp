@@ -22,10 +22,19 @@ Action stringToAction(const string& command) {
 }
 
 
-string& toLowerCase(string& input) {
-	transform(input.begin(), input.end(), input.begin(), tolower); 
+string toLowerCase(const string& input) {
+	string result = input; 
+	transform(result.begin(), result.end(), result.begin(),
+		[](unsigned char c) { return tolower(c); });
+	return result;
+}
+
+string& toLowerCaseModify(string& input) {
+	transform(input.begin(), input.end(), input.begin(),
+		[](unsigned char c) { return tolower(c); });
 	return input;
 }
+
 
 
 Direction stringToDirection(const string& direction) {

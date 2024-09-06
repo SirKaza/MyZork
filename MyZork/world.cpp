@@ -69,7 +69,7 @@ void World::handleCommand(string& input) {
 	vector<string> args;
 
 	iss >> command;  // First token as a command
-	toLowerCase(command);
+	toLowerCaseModify(command);
 
 	string arg;
 	while (iss >> arg) {
@@ -77,7 +77,7 @@ void World::handleCommand(string& input) {
 	}
 
 	for (string& arg : args) { // args lowercase
-		toLowerCase(arg);
+		toLowerCaseModify(arg);
 	}
 
 	Action action;
@@ -102,9 +102,7 @@ void World::handleCommand(string& input) {
 				}
 			}
 			else if (args.size() == 1) { // look object
-				string playerName = player->getName();
-				toLowerCase(playerName);
-				if (args[0] == "me" || args[0] == "myself" || args[0] == playerName) {
+				if (args[0] == "me" || args[0] == "myself" || args[0] == toLowerCase(player->getName())) {
 					player->Look();
 				}
 				else {

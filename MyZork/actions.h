@@ -29,7 +29,8 @@ enum class Direction {
 
 Action stringToAction(const string& command);
 
-string& toLowerCase(string& input);
+string toLowerCase(const string& input);
+string& toLowerCaseModify(string& input);
 
 Direction stringToDirection(const string& direction);
 string directionToString(Direction direction);
