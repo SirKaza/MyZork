@@ -118,7 +118,6 @@ void Player::Take(const vector<string>& args) { // to inventory
 
 		if (containerFound->getType() == TypesEntities::Entity) { 
 			containerFound->setExamineText(""); // change examineText
-			containerFound->setIsContainer(false);
 		}
 	}
 
