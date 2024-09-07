@@ -9,7 +9,7 @@ class Player :
     public Creature
 {
     public:
-        Player(const string& name, const string& description, Room* location, bool isContainer, const string& examineText = "");
+        Player(const string& name, const string& description, Room* location, bool isContainer, const string& examineText);
         ~Player();
 
         void Look() const;

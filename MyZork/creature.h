@@ -11,7 +11,7 @@ class Creature :
     public Entity
 {
     public:
-        Creature(const string& name, const string& description, Room* location, bool isContainer, const string& examineText = "");
+        Creature(const string& name, const string& description, Room* location, bool isContainer, const string& examineText);
         ~Creature();
 
         virtual void Look() const;
