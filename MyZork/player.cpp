@@ -77,19 +77,11 @@ void Player::Take(const vector<string>& args) { // to inventory
 		for (auto it = prepPosition + 1; it != args.end(); ++it) {
 			containerFound = findEntityByNameAndTypes(*it, containerTypes); // find container in inventory
 			if (containerFound != nullptr) { // container exists and isContainer
-				if (containerFound->getIsContainer()) {
-					break;
-				}
-				cout << "That can't contain things.\n";
-				return;
+				break;
 			}
 			containerFound = location->findEntityByNameAndTypes(*it, containerTypes); // find container in location
 			if (containerFound != nullptr) {
-				if (containerFound->getIsContainer()) {
-					break;
-				}
-				cout << "That can't contain things.\n";
-				return;
+				break;
 			}
 		}
 		if (containerFound == nullptr) {

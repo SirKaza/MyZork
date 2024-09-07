@@ -18,7 +18,7 @@ class Entity
 {
 	public:
 		Entity(const string& name, const string& description, bool isContainer, const string& examineText = "");
-		virtual ~Entity(); // sons can overwrite
+		virtual ~Entity(); 
 
 		virtual void Update();
 
@@ -50,7 +50,7 @@ class Entity
 		string description;
 		list<Entity*> contains; // Inventary (player), Room space and containers (chest)
 
-		bool isContainer; // flag for entities that are able to use contains
+		bool isContainer; // flag for entities that player can put things inside it
 		string examineText;
 		const set<TypesEntities> containerTypes = { TypesEntities::Item, TypesEntities::Entity }; // containers can be entities or items
 };
