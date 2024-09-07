@@ -15,7 +15,7 @@ class Creature :
         ~Creature();
 
         virtual void Look() const;
-        virtual void Go(const string& direction);
+        virtual bool Go(const string& direction);
         virtual void Take(const vector<string>& args);
         virtual void Inventory() const;
         virtual void Drop(const vector<string>& args);

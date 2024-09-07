@@ -27,8 +27,8 @@ void Creature::Look() const {
 	}
 }
 
-void Creature::Go(const string& direction) {
-
+bool Creature::Go(const string& direction) {
+	return false;
 }
 
 

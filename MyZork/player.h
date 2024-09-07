@@ -13,7 +13,7 @@ class Player :
         ~Player();
 
         void Look() const;
-        void Go(const string& direction);
+        bool Go(const string& direction);
         void Take(const vector<string>& args);
         void Inventory() const;
         void Drop(const vector<string>& args);

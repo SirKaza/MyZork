@@ -23,12 +23,12 @@ void Player::Look() const {
 	cout << description << "\n";
 }
 
-void Player::Go(const string& direction) {
+bool Player::Go(const string& direction) {
 	Direction dir = stringToDirection(direction);
 
 	if (dir == Direction::None) {
 		cout << "That is not a valid direction.\n";
-		return;
+		return false;
 	}
 
 	for (Entity* entity : location->getContains()) {
@@ -37,10 +37,11 @@ void Player::Go(const string& direction) {
 		if (exit != nullptr && exit->getDirection() == dir) {
 			location = exit->getDestination(); // Update player location
 			cout << "You go " << directionToString(exit->getDirection()) << " and arrive to the " << location->getName() << ".\n";
-			return;
+			return true;
 		}
 	}
 	cout << "There is no exit in that direction.\n";
+	return false;
 }
 
 void Player::Take(const vector<string>& args) { // to inventory

@@ -104,6 +104,7 @@ void World::handleCommand(string& input) {
 		lastInput = input;
 	}
 
+	bool move = false;
 	switch (action) {
 		case (Action::Look): // look room or player
 			if (args.empty()) { // show room
@@ -125,14 +126,18 @@ void World::handleCommand(string& input) {
 			break;
 
 		case (Action::Go): // move through rooms
+			
 			if (args.empty() && command == "go") { 
 				cout << "You'll have to say which compass direction to go in.\n";
 			}
 			else if (args.empty() && command != "go") { // cardinal points
-				player->Go(command);
+				move =  player->Go(command);
 			}
 			else if (args.size() == 1) { // go point
-				player->Go(args[0]);
+				move = player->Go(args[0]);
+			}
+			if (move) {
+				player->getLocation()->Look();
 			}
 			break;
 
