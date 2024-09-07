@@ -1,10 +1,10 @@
 #include "actions.h"
 #include <stdexcept>
+#include <iostream>
 #include <algorithm>
 #include <cctype>
 
 using namespace std;
-
 
 Action stringToAction(const string& command) {
 	if (command == "look" || command == "l") return Action::Look;
@@ -17,10 +17,9 @@ Action stringToAction(const string& command) {
 	else if (command == "put") return Action::Put;
 	else if (command == "g") return Action::Repeat;
 	else if (command == "shout" || command == "yell" || command == "scream" || command == "" || command == "zork" || command == "jump") return Action::Extra;
-	else if (command == "use") return Action::Use;
+	else if (command == "help" || command == "h") return Action::Help;
 	else throw invalid_argument("Unknown command: " + command);
 }
-
 
 string toLowerCase(const string& input) {
 	string result = input; 
@@ -35,8 +34,6 @@ string& toLowerCaseModify(string& input) {
 	return input;
 }
 
-
-
 Direction stringToDirection(const string& direction) {
 	if (direction == "north" || direction == "n") return Direction::North;
 	else if (direction == "south" || direction == "s") return Direction::South;
@@ -46,7 +43,6 @@ Direction stringToDirection(const string& direction) {
 	else if (direction == "down" || direction == "d") return Direction::Down;
 	else return Direction::None;
 }
-
 
 string directionToString(Direction direction) {
 	switch (direction) {
@@ -59,5 +55,31 @@ string directionToString(Direction direction) {
 		default: return "uknown";
 		break;
 	}
+}
+
+void printHelp() {
+	cout << "===== HELP MENU =====\n";
+	cout << "You can use the following commands:\n";
+	cout << "  - look / l: Look around the current room or player.\n";
+	cout << "    Example: 'look' to look room or 'look (me/myself/name of player)' to look player.\n";
+	cout << "  - go [direction]: Move in a direction (north, south, east, west, up, down).\n";
+	cout << "    Example: 'go north' or 'north' or 'n'.\n";
+	cout << "  - take / get / pick / grab [item]: Pick up an item from the room. Also can take all items in room. \n";
+	cout << "    Example: 'take keycard' or 'take all/everything'.\n";
+	cout << "  - take / get / pick / grab [item] from/of [container]: Pick up an item from a container. \n";
+	cout << "    Example: 'take keycard from leaves'.\n";
+	cout << "  - drop [item]: Drop an item from your inventory. Also can drop all items in room.\n";
+	cout << "    Example: 'drop keychain' or 'drop all/everything'.\n";
+	cout << "  - examine [something]: Get a detailed description of something.\n";
+	cout << "    Example: 'examine leaves'.\n";
+	cout << "  - put [item] in [container]: Put an item into a container.\n";
+	cout << "    Example: 'put keycard in box'.\n";
+	cout << "  - inventory / i: Check your inventory.\n";
+	cout << "  - quit / q: Quit the game.\n";
+	cout << "  - repeat: Repeats the last command you entered.\n";
+	cout << "  - shout / yell / scream: Express your feelings.\n";
+	cout << "  - jump / zork: Perform a fun, silly action.\n";
+	cout << "  - help: Show this help menu.\n";
+	cout << "======================\n";
 }
 

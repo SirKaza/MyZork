@@ -26,10 +26,10 @@ World::World(const string& playerName) {
 	entities.push_back(bunker);
 
 	// ---- Exits ----
-	Exit* trail = new Exit("Trail", "Short dirt path.", Direction::East, parking, forest, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading east.");
-	Exit* trail2 = new Exit("Trail", "Short dirt path.", Direction::West, forest, parking, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading west.");
-	Exit* hatch = new Exit("Hatch", "Old metal hatch.", Direction::Down, forest, bunker, false, "The old metal hatch is heavily rusted, with a few faint scratches visible. It looks like it hasn't been opened in ages.");
-	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, bunker, forest, false, "The old stone stairs are worn and uneven. Some stones are chipped, and the surface feels cool to the touch.");
+	Exit* trail = new Exit("Trail", "Short dirt path.", Direction::East, parking, forest, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading east.", false, false);
+	Exit* trail2 = new Exit("Trail", "Short dirt path.", Direction::West, forest, parking, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading west.", false, false);
+	Exit* hatch = new Exit("Hatch", "Old metal hatch.", Direction::Down, forest, bunker, false, "The old metal hatch is heavily rusted, with a few faint scratches visible. It looks like it hasn't been opened in ages.", true, false);
+	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, bunker, forest, false, "The old stone stairs are worn and uneven. Some stones are chipped, and the surface feels cool to the touch.", false, false);
 
 	entities.push_back(trail);
 	entities.push_back(trail2);
@@ -42,7 +42,7 @@ World::World(const string& playerName) {
 	bunker->setContains(stairs);
 
 	// ---- Player ----
-	player = new Player(playerName, "An ambitious adventurer.", parking, true);
+	player = new Player(playerName, "An ambitious adventurer.", parking, true, "");
 	entities.push_back(player);
 
 	// ---- Entities ----
@@ -112,7 +112,7 @@ void World::handleCommand(string& input) {
 					player->getLocation()->Look();
 				}
 			}
-			else if (args.size() == 1) { // look object
+			else if (args.size() == 1) { // look player
 				if (args[0] == "me" || args[0] == "myself" || args[0] == toLowerCase(player->getName())) {
 					player->Look();
 				}
@@ -214,8 +214,8 @@ void World::handleCommand(string& input) {
 			}
 			break;
 
-		case Action::Use:
-
+		case Action::Help:
+			printHelp();
 			break;
 
 		default:

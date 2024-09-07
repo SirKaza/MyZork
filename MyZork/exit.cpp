@@ -5,8 +5,8 @@
 using namespace std;
 
 
-Exit::Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination, bool isContainer, const string& examineText)
-	: Entity(name, description, isContainer, examineText), direction(direction), source(source), destination(destination) {
+Exit::Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination, bool isContainer, const string& examineText, bool closed, bool locked)
+	: Entity(name, description, isContainer, examineText), direction(direction), source(source), destination(destination), closed(closed) , locked(locked) {
 
 	this->type = TypesEntities::Exit;
 }
@@ -29,4 +29,12 @@ Room* Exit::getSource() const {
 
 Room* Exit::getDestination() const {
 	return destination;
+}
+
+bool Exit::isClosed() const {
+	return closed;
+}
+
+bool Exit::isLocked() const {
+	return locked;
 }

@@ -14,7 +14,7 @@ enum class Action {
     Put,
     Repeat,
     Extra,
-    Use
+    Help
 };
 
 enum class Direction {
@@ -34,5 +34,7 @@ string& toLowerCaseModify(string& input);
 
 Direction stringToDirection(const string& direction);
 string directionToString(Direction direction);
+
+void printHelp();
 
 
