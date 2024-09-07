@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Entity::Entity(const string& name, const string& description, const bool isContainer, const string& examineText) 
+Entity::Entity(const string& name, const string& description, bool isContainer, const string& examineText) 
 	: name(name), description(description), isContainer(isContainer), examineText(examineText){
 
 	this->type = TypesEntities::Entity;
@@ -101,6 +101,10 @@ const bool Entity::getIsContainer() const {
 
 void Entity::setExamineText(const string& newExamineText) {
 	examineText = newExamineText;
+}
+
+void Entity::setIsContainer(bool newIsContainer) {
+	isContainer = newIsContainer;
 }
 
 const string& Entity::getName() const {

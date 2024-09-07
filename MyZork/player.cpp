@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Player::Player(const string& name, const string& description, Room* location, const bool isContainer, const string& examineText)
+Player::Player(const string& name, const string& description, Room* location, bool isContainer, const string& examineText)
 	: Creature(name, description, location, isContainer, examineText) {
 
 	this->type = TypesEntities::Player;
@@ -43,7 +43,8 @@ void Player::Go(const string& direction) {
 	cout << "There is no exit in that direction.\n";
 }
 
-void Player::Take(const vector<string>& args) {
+void Player::Take(const vector<string>& args) { // to inventory
+	// First case (take all) ----
 	if (args[0] == "all" || args[0] == "everything") { // take all items in room
 		list<Entity*> items = location->getContainsByType(TypesEntities::Item);
 
@@ -60,9 +61,10 @@ void Player::Take(const vector<string>& args) {
 		return;
 	}
 
+	// Second case (take item from/of container) ----
 	auto fromPrep = find(args.begin(), args.end(), "from");
 	auto ofPrep = find(args.begin(), args.end(), "of");
-	if (fromPrep != args.end() || ofPrep != args.end()) { //  Take item From/Of container
+	if (fromPrep != args.end() || ofPrep != args.end()) {
 		if (args.size() < 3) {
 			cout << "What do you want to take from?\n";
 			return;
@@ -71,14 +73,22 @@ void Player::Take(const vector<string>& args) {
 		auto prepPosition = (fromPrep != args.end()) ? fromPrep : ofPrep; // get position of connector
 
 		Entity* containerFound = nullptr;
-		for (auto it = prepPosition; it != args.end(); ++it) {
+		for (auto it = prepPosition + 1; it != args.end(); ++it) {
 			containerFound = findEntityByNameAndTypes(*it, containerTypes); // find container in inventory
-			if (containerFound != nullptr) {
-				break;
+			if (containerFound != nullptr) { // container exists and isContainer
+				if (containerFound->getIsContainer()) {
+					break;
+				}
+				cout << "That can't contain things.\n";
+				return;
 			}
-			containerFound = location->findEntityByNameAndTypes(*it, containerTypes); // find container in inventory
-			if (containerFound != nullptr) { 
-				break;
+			containerFound = location->findEntityByNameAndTypes(*it, containerTypes); // find container in location
+			if (containerFound != nullptr) {
+				if (containerFound->getIsContainer()) {
+					break;
+				}
+				cout << "That can't contain things.\n";
+				return;
 			}
 		}
 		if (containerFound == nullptr) {
@@ -103,8 +113,16 @@ void Player::Take(const vector<string>& args) {
 		containerFound->removeEntity(itemFound);
 		setContains(itemFound);
 		cout << "You took " << itemFound->getName() << " from " << containerFound->getName() << ".\n";
+
+
+		if (containerFound->getType() == TypesEntities::Entity) { 
+			containerFound->setExamineText(""); // change examineText
+			containerFound->setIsContainer(false);
+		}
 	}
-	else { // take specific item/s to inventory
+
+	// Third case (take item/s) ----
+	else { 
 		bool takeSomething = false;
 		for (string arg : args) {
 			Entity* item = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
@@ -210,7 +228,7 @@ void Player::Put(const vector<string>& args) {
 	cout << "You can't see any such thing.\n";
 }
 
-void Player::Examine(const vector<string>& args) { 	// if container print contains
+void Player::Examine(const vector<string>& args) { 	
 	bool foundSomething = false;
 
 	for (const string& arg : args) {

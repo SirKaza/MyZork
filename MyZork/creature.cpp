@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Creature::Creature(const string& name, const string& description, Room* location, const bool isContainer, const string& examineText)
+Creature::Creature(const string& name, const string& description, Room* location, bool isContainer, const string& examineText)
 	: Entity(name, description, isContainer, examineText), location(location) {
 
 	this->type = TypesEntities::Creature;

@@ -11,7 +11,7 @@ class Exit :
     public Entity
 {
     public:
-        Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination, const bool isContainer, const string& examineText = "");
+        Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination, bool isContainer, const string& examineText = "");
         ~Exit();
 
         Direction getDirection() const;

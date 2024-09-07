@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Item::Item(const string& name, const string& description, const bool isContainer, const string& examineText)
+Item::Item(const string& name, const string& description, bool isContainer, const string& examineText)
 	: Entity(name, description, isContainer, examineText) {
 
 	this->type = TypesEntities::Item;

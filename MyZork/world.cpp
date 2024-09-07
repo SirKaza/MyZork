@@ -45,14 +45,24 @@ World::World(const string& playerName) {
 	player = new Player(playerName, "An ambitious adventurer.", parking, true);
 	entities.push_back(player);
 
+	// ---- Entities ----
+	Entity* leaves = new Entity("Leaves", "There is a pile of leaves grouped near one of the trees.", true, "You carefully move the leaves aside and uncover a keycard. It's an access card with a strange logo.");
+	entities.push_back(leaves);
+
 	// ---- Items ----
 	Item* keychain = new Item("Keychain", "There are 2 keys on the keychain, one is a car key and the other is unknown.", false, "The keychain is well-used, with two keys hanging from it. The car key is slightly larger than the other, which has a unique shape.");
 	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.", false, "This key card is covered in dirt and the logo is barely visible. It probably opens something old too.");
 	Item* box = new Item("Box", "A small metal box.", true, "The small metal box is cold and heavy. It has intricate designs carved into its surface and a small, peculiarly shaped lock on the front.");
 
+	entities.push_back(keychain);
+	entities.push_back(keycard);
+	entities.push_back(box);
+
+	leaves->setContains(keycard);
 	parking->setContains(keychain);
-	forest->setContains(keycard);
+	forest->setContains(leaves);
 	bunker->setContains(box);
+	
 }
 
 World::~World() {

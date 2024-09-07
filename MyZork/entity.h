@@ -17,7 +17,7 @@ enum class TypesEntities {
 class Entity
 {
 	public:
-		Entity(const string& name, const string& description, const bool isContainer, const string& examineText = "");
+		Entity(const string& name, const string& description, bool isContainer, const string& examineText = "");
 		virtual ~Entity(); // sons can overwrite
 
 		virtual void Update();
@@ -38,6 +38,7 @@ class Entity
 
 		const bool getIsContainer() const;
 		void setExamineText(const string& newExamineText);
+		void setIsContainer(bool newIsContainer);
 
 		const string& getName() const;
 		const string& getDescription() const;
@@ -49,7 +50,7 @@ class Entity
 		string description;
 		list<Entity*> contains; // Inventary (player), Room space and containers (chest)
 
-		const bool isContainer; // flag for entities that are able to use contains
+		bool isContainer; // flag for entities that are able to use contains
 		string examineText;
 		const set<TypesEntities> containerTypes = { TypesEntities::Item, TypesEntities::Entity }; // containers can be entities or items
 };
