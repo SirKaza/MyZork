@@ -31,11 +31,9 @@ bool Creature::Go(const string& direction) {
 	return false;
 }
 
-
 void Creature::Take(const vector<string>& args) {
 
 }
-
 
 void Creature::Inventory() const {
 
@@ -54,6 +52,13 @@ void Creature::Examine(const vector<string>& args) {
 
 }
 
+void Creature::Open(const vector<string>& args) {
+
+}
+
+void Creature::Close(const vector<string>& args) {
+
+}
 
 Room* Creature::getLocation() const {
 	return location; // could be null

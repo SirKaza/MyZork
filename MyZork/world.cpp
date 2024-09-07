@@ -26,10 +26,10 @@ World::World(const string& playerName) {
 	entities.push_back(bunker);
 
 	// ---- Exits ----
-	Exit* trail = new Exit("Trail", "Short dirt path.", Direction::East, parking, forest, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading east.", false, false);
-	Exit* trail2 = new Exit("Trail", "Short dirt path.", Direction::West, forest, parking, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading west.", false, false);
-	Exit* hatch = new Exit("Hatch", "Old metal hatch.", Direction::Down, forest, bunker, false, "The old metal hatch is heavily rusted, with a few faint scratches visible. It looks like it hasn't been opened in ages.", true, false);
-	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, bunker, forest, false, "The old stone stairs are worn and uneven. Some stones are chipped, and the surface feels cool to the touch.", false, false);
+	Exit* trail = new Exit("Trail", "Short dirt path.", Direction::East, parking, forest, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading east.");
+	Exit* trail2 = new Exit("Trail", "Short dirt path.", Direction::West, forest, parking, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading west.");
+	Exit* hatch = new Exit("Hatch", "Old metal hatch.", Direction::Down, forest, bunker, false, "The old metal hatch is heavily rusted, with a few faint scratches visible. It looks like it hasn't been opened in ages.", true, true, false);
+	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, bunker, forest, false, "The old stone stairs are worn and uneven. Some stones are chipped, and the surface feels cool to the touch.");
 
 	entities.push_back(trail);
 	entities.push_back(trail2);
@@ -127,7 +127,7 @@ void World::handleCommand(string& input) {
 
 		case (Action::Go): // move through rooms
 			
-			if (args.empty() && command == "go") { 
+			if (args.empty() && command == "go") { // go [none]
 				cout << "You'll have to say which compass direction to go in.\n";
 			}
 			else if (args.empty() && command != "go") { // cardinal points
@@ -136,6 +136,10 @@ void World::handleCommand(string& input) {
 			else if (args.size() == 1) { // go point
 				move = player->Go(args[0]);
 			}
+			else {
+				cout << "You can only move in one direction at a time.\n";
+			}
+
 			if (move) {
 				player->getLocation()->Look();
 			}
@@ -192,6 +196,24 @@ void World::handleCommand(string& input) {
 			}
 			else {
 				cout << "What do you want to put?" << endl;
+			}
+			break;
+
+		case Action::Open:
+			if (!args.empty()) {
+				player->Open(args);
+			}
+			else {
+				cout << "What do you want to open?" << endl;
+			}
+			break;
+
+		case Action::Close:
+			if (!args.empty()) {
+				player->Close(args);
+			}
+			else {
+				cout << "What do you want to close?" << endl;
 			}
 			break;
 

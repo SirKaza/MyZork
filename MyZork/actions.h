@@ -12,6 +12,8 @@ enum class Action {
     Inventory,
     Examine,
     Put,
+    Open,
+    Close,
     Repeat,
     Extra,
     Help

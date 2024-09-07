@@ -19,6 +19,8 @@ class Player :
         void Drop(const vector<string>& args);
         void Put(const vector<string>& args);
         void Examine(const vector<string>& args); // player can not examine an item inside a container
+        void Open(const vector<string>& args);
+        void Close(const vector<string>& args);
 
         void examineEntity(Entity* entity) const;
 };

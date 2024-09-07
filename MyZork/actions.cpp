@@ -15,6 +15,8 @@ Action stringToAction(const string& command) {
 	else if (command == "inventory" || command == "i") return Action::Inventory;
 	else if (command == "examine") return Action::Examine;
 	else if (command == "put") return Action::Put;
+	else if (command == "open") return Action::Open;
+	else if (command == "close") return Action::Close;
 	else if (command == "g") return Action::Repeat;
 	else if (command == "shout" || command == "yell" || command == "scream" || command == "" || command == "zork" || command == "jump") return Action::Extra;
 	else if (command == "help" || command == "h") return Action::Help;

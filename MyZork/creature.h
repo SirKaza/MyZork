@@ -21,6 +21,8 @@ class Creature :
         virtual void Drop(const vector<string>& args);
         virtual void Put(const vector<string>& args);
         virtual void Examine(const vector<string>& args);
+        virtual void Open(const vector<string>& args);
+        virtual void Close(const vector<string>& args);
 
         Room* getLocation() const;
         
