@@ -1,18 +1,10 @@
 #pragma once
 #include <string>
 #include <list>
-#include <set>
+#include "lockable.h"
+#include "actions.h"
 
 using namespace std;
-
-enum class TypesEntities {
-	Entity,
-	Creature,
-	Exit,
-	Room,
-	Item,
-	Player
-};
 
 class Entity
 {
@@ -50,8 +42,7 @@ class Entity
 		string description;
 		list<Entity*> contains; // Inventary (player), Room space and containers (chest)
 
-		bool isContainer; // flag for entities that player can put things inside it
+		bool isContainer; // flag for entities that player can put things inside it (entity & items)
 		string examineText;
-		const set<TypesEntities> containerTypes = { TypesEntities::Item, TypesEntities::Entity }; // containers can be entities or items
 };
 

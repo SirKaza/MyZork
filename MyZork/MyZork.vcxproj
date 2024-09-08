@@ -144,6 +144,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="exit.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="lockable.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="room.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="exit.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="lockable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="room.cpp" />

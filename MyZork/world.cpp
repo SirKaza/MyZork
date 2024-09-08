@@ -17,51 +17,90 @@ using namespace std;
 
 World::World(const string& playerName) {
 	// ---- Rooms ----
-	Room* parking = new Room("Parking", "You are in a parking lot in which there is only one car.", true, "The parking lot is dimly lit, and you can see a single car parked here. It's quite dusty, as if no one has visited in a while.");
-	Room* forest = new Room("Forest", "You are in a forest next to a river.", true, "Tall trees surround you, their leaves whispering in the gentle breeze. The sound of the nearby river is soothing, and the ground is carpeted with soft moss.");
-	Room* bunker = new Room("Bunker", "You are in the hall of the bunker.", true, "The bunker feels cold, dark and damp. Metal beams support the structure and there is a sinister atmosphere.");
+	Room* picnic = new Room("Picnic", "You are in a sunny picnic area surrounded by trees that provide some shade.", true, "A wooden picnic table is set up under a shady tree. The grass around is quite high, as if no one has used the picnic in a long time.");
+	Room* parking = new Room("Parking", "You are in a parking lot in which there is only one car parked.", true, "The parking lot is dimly lit, and you can see a single car parked in a corner.");
+	Room* forest = new Room("Forest", "You are in a forest next to a river.", true, "Tall trees surround you, their leaves whispering in the gentle breeze. The sound of the nearby river is soothing, and the ground is carpeted with leaves.");
+	Room* laboratory = new Room("Laboratory", "You are in a high-tech laboratory.", true, "The laboratory is full of advanced equipment and the air smells of chemicals. It is cold and it feels like very important experiments are being carried out here.");
+	Room* arena = new Room("Arena", "You are in a vast arena filled with sand and surrounded by walls.", true, "The sand is extensive, with sand under your feet and stone walls surrounding you. Faint marks can be seen in the sand, hinting at possible previous fights.");
 
+	entities.push_back(picnic);
 	entities.push_back(parking);
 	entities.push_back(forest);
-	entities.push_back(bunker);
+	entities.push_back(laboratory);
+	entities.push_back(arena);
 
 	// ---- Exits ----
+	Exit* road = new Exit("Road", "A paved road.", Direction::North, parking, picnic, false, "The road is well-maintained and lined with trees, making it a pleasant walk to the north.");
+	Exit* road2 = new Exit("Road", "A paved road.", Direction::South, picnic, parking, false, "The road is well-maintained and lined with trees, making it a pleasant walk to the south.");
 	Exit* trail = new Exit("Trail", "Short dirt path.", Direction::East, parking, forest, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading east.");
 	Exit* trail2 = new Exit("Trail", "Short dirt path.", Direction::West, forest, parking, false, "The dirt road is largely covered in grass, indicating that it has not been used for quite some time. You can barely see footprints leading west.");
-	Exit* hatch = new Exit("Hatch", "Old metal hatch.", Direction::Down, forest, bunker, false, "The old metal hatch is heavily rusted, with a few faint scratches visible. It looks like it hasn't been opened in ages.", true, true, false);
-	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, bunker, forest, false, "The old stone stairs are worn and uneven. Some stones are chipped, and the surface feels cool to the touch.");
+	Exit* hatch = new Exit("Hatch", "Old metal hatch.", Direction::Down, forest, laboratory, false, "The old metal hatch is heavily rusted, with a few faint scratches visible. It looks like it hasn't been opened in ages.", true, true);
+	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, laboratory, forest, false, "The old stone stairs are worn and uneven. Some stones are chipped, and the surface feels cool to the touch.");
+	Exit* door = new Exit("Door", "A big metal door.", Direction::West, laboratory, arena, false, "You examine the large metal door closely. The word 'danger' is written on it. It is facing west, who knows what lies on the other side for someone to write that?", true, true, true);
+	Exit* door2 = new Exit("Door", "A big metal door.", Direction::East, arena, laboratory, false, "", true); // open
 
+	entities.push_back(road);
+	entities.push_back(road2);
 	entities.push_back(trail);
 	entities.push_back(trail2);
 	entities.push_back(hatch);
 	entities.push_back(stairs);
+	entities.push_back(door);
+	entities.push_back(door2);
 
+	parking->setContains(road);
+	picnic->setContains(road2);
 	parking->setContains(trail);
 	forest->setContains(trail2);
 	forest->setContains(hatch);
-	bunker->setContains(stairs);
+	laboratory->setContains(stairs);
+	laboratory->setContains(door);
+	arena->setContains(door2);
 
-	// ---- Player ----
-	player = new Player(playerName, "An ambitious adventurer.", parking, true, "");
+	// ---- Creatures ----
+	player = new Player(playerName, "An ambitious adventurer.", parking, true);
+	Creature* boss = new Creature("Ogre", "A huge, burly creature with thick green skin and a menacing presence.", arena, true);
+
 	entities.push_back(player);
 
 	// ---- Entities ----
 	Entity* leaves = new Entity("Leaves", "There is a pile of leaves grouped near one of the trees.", true, "You carefully move the leaves aside and uncover a keycard. It's an access card with a strange logo.");
-	entities.push_back(leaves);
+	Entity* table = new Entity("Table", "An old wooden table, worn by time and use.", true, "You look closely at the table and discover a keychain in one of the fissure of the table.");
+	Entity* car = new Entity("Car", "A dusty old car, parked here for what seems like forever. The paint is chipped and the tires are flat. It looks like it hasn't been driven in a long time.", true, ""); // locked?
+
+	entities.push_back(leaves); 
+	entities.push_back(table);
+	entities.push_back(car);
 
 	// ---- Items ----
 	Item* keychain = new Item("Keychain", "There are 2 keys on the keychain, one is a car key and the other is unknown.", false, "The keychain is well-used, with two keys hanging from it. The car key is slightly larger than the other, which has a unique shape.");
-	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.", false, "This key card is covered in dirt and the logo is barely visible. It probably opens something old too.");
-	Item* box = new Item("Box", "A small metal box.", true, "The small metal box is cold and heavy. It has intricate designs carved into its surface and a small, peculiarly shaped lock on the front.");
+	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.", false, "This key card is covered in dirt and the logo is barely visible. It probably opens a door.");
+	Item* box = new Item("Box", "A small metal box.", true, "The small metal box is cold and heavy. It has intricate designs carved into its surface and a small, peculiarly shaped lock on the front.", true, true, true);
+	Item* sword = new Item("Sword", "A long metal sword.", false);
+	Item* shield = new Item("Shield", "A small metal shield.", false);
+	Item* treasure = new Item("Treasure", "A treasure chest with plenty of gold.", false);
 
 	entities.push_back(keychain);
 	entities.push_back(keycard);
 	entities.push_back(box);
+	entities.push_back(sword);
+	entities.push_back(shield);
+	entities.push_back(treasure);
+
+	table->setContains(keychain);
+	picnic->setContains(table);
+
+	car->setContains(sword);
+	parking->setContains(car);
 
 	leaves->setContains(keycard);
-	parking->setContains(keychain);
 	forest->setContains(leaves);
-	bunker->setContains(box);
+
+	box->setContains(shield);
+	laboratory->setContains(box);
+
+	boss->setContains(treasure);
+	arena->setContains(boss);
 	
 }
 
@@ -214,6 +253,25 @@ void World::handleCommand(string& input) {
 			}
 			else {
 				cout << "What do you want to close?" << endl;
+			}
+			break;
+
+
+		case Action::Lock:
+			if (!args.empty()) {
+				player->Lock(args);
+			}
+			else {
+				cout << "What do you want to lock?" << endl;
+			}
+			break;
+
+		case Action::Unlock:
+			if (!args.empty()) {
+				player->Unlock(args);
+			}
+			else {
+				cout << "What do you want to unlock?" << endl;
 			}
 			break;
 

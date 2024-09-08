@@ -1,5 +1,6 @@
 #pragma once
 #include "creature.h"
+#include "lockable.h"
 #include <string>
 #include <set>
 
@@ -9,7 +10,7 @@ class Player :
     public Creature
 {
     public:
-        Player(const string& name, const string& description, Room* location, bool isContainer, const string& examineText);
+        Player(const string& name, const string& description, Room* location, bool isContainer, const string& examineText = "");
         ~Player();
 
         void Look() const;
@@ -21,6 +22,8 @@ class Player :
         void Examine(const vector<string>& args); // player can not examine an item inside a container
         void Open(const vector<string>& args);
         void Close(const vector<string>& args);
+        void Lock(const vector<string>& args);
+        void Unlock(const vector<string>& args);
 
         void examineEntity(Entity* entity) const;
 };

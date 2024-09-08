@@ -11,7 +11,7 @@ class Creature :
     public Entity
 {
     public:
-        Creature(const string& name, const string& description, Room* location, bool isContainer, const string& examineText);
+        Creature(const string& name, const string& description, Room* location, bool isContainer, const string& examineText = "");
         ~Creature();
 
         virtual void Look() const;
@@ -23,6 +23,8 @@ class Creature :
         virtual void Examine(const vector<string>& args);
         virtual void Open(const vector<string>& args);
         virtual void Close(const vector<string>& args);
+        virtual void Lock(const vector<string>& args);
+        virtual void Unlock(const vector<string>& args);
 
         Room* getLocation() const;
         

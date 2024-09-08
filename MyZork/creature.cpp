@@ -6,7 +6,7 @@
 using namespace std;
 
 Creature::Creature(const string& name, const string& description, Room* location, bool isContainer, const string& examineText)
-	: Entity(name, description, isContainer, examineText), location(location) {
+	: Entity(name, description, isContainer, examineText), location(location){
 
 	this->type = TypesEntities::Creature;
 }
@@ -23,7 +23,7 @@ void Creature::Look() const {
 		cout << location->getName() << "\n";
 	}
 	else {
-		cout << "Unknown location\n";
+		cout << "Unknown location.\n";
 	}
 }
 
@@ -38,7 +38,6 @@ void Creature::Take(const vector<string>& args) {
 void Creature::Inventory() const {
 
 }
-
 
 void Creature::Drop(const vector<string>& args) {
 
@@ -57,6 +56,14 @@ void Creature::Open(const vector<string>& args) {
 }
 
 void Creature::Close(const vector<string>& args) {
+
+}
+
+void Creature::Lock(const vector<string>& args) {
+
+}
+
+void Creature::Unlock(const vector<string>& args) {
 
 }
 

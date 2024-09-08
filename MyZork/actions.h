@@ -1,7 +1,17 @@
 #pragma once
 #include <string>
+#include <set>
 
 using namespace std;
+
+enum class TypesEntities {
+    Entity,
+    Creature,
+    Exit,
+    Room,
+    Item,
+    Player
+};
 
 enum class Action {
     Look,
@@ -14,6 +24,8 @@ enum class Action {
     Put,
     Open,
     Close,
+    Lock,
+    Unlock,
     Repeat,
     Extra,
     Help
@@ -28,6 +40,10 @@ enum class Direction {
     Down,
     None
 };
+
+
+const set<TypesEntities> containerTypes = { TypesEntities::Item, TypesEntities::Entity }; // containers can be entities or items
+const set<TypesEntities> lockTypes = { TypesEntities::Item, TypesEntities::Entity, TypesEntities::Exit };
 
 Action stringToAction(const string& command);
 

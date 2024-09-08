@@ -1,6 +1,7 @@
 #include "player.h"
 #include "room.h"
 #include "exit.h"
+#include "item.h"
 #include "actions.h"
 #include <string>
 #include <iostream>
@@ -35,8 +36,9 @@ bool Player::Go(const string& direction) {
 		Exit* exit = dynamic_cast<Exit*>(exitEntity); // try downcast to Exit
 
 		if (exit != nullptr && exit->getDirection() == dir) {
-			if (!exit->isLocked()) {
-				if (!exit->isClosed()) { // exit open
+			Lockable* lockable = dynamic_cast<Lockable*>(exitEntity); // try downcast to Lockable
+			if (!lockable->isLocked()) {
+				if (!lockable->isClosed()) { // exit open
 					location = exit->getDestination(); // Update player location
 					cout << "You go " << directionToString(exit->getDirection()) << " and arrive to the " << location->getName() << ".\n";
 					return true;
@@ -272,57 +274,51 @@ void Player::examineEntity(Entity* entity) const {
 }
 
 void Player::Open(const vector<string>& args) {
-	bool foundExit = false;
+	bool foundOpen = false;
 	for (const string& arg : args) {
-		Entity* entity = location->findEntityByNameAndType(arg, TypesEntities::Exit);
+		Entity* entity = location->findEntityByNameAndTypes(arg, lockTypes);
 		if (entity != nullptr) {
-			foundExit = true;
-			Exit* exit = dynamic_cast<Exit*>(entity); // downcast to Exit
-			if (exit->getCanClose()) { // exit can be closed or opened
-				if (!exit->isLocked()) { // Unlocked exit
-					if (exit->isClosed()) {
-						exit->inverseClosed();
-						cout << exit->getName() << " is now opened.\n";
-					}
-				}
-				else {
-					cout << exit->getName() << " is locked and cannot be opened.\n";
-				}
-			}
-			else {
-				cout << exit->getName() << " isn't something you can open.\n";
+			foundOpen = true;
+			Lockable* open = dynamic_cast<Lockable*>(entity); // downcast to Lockable
+
+			if (open != nullptr) { 
+				open->Open(entity->getName());
 			}
 		}
 	}
-	if (!foundExit) {
+	if (!foundOpen) {
 		cout << "That's not something you can open.\n";
 	}
 }
-
 void Player::Close(const vector<string>& args) {
-	bool foundExit = false;
+	bool foundClose = false;
 	for (const string& arg : args) {
-		Entity* entity = location->findEntityByNameAndType(arg, TypesEntities::Exit);
+		Entity* entity = location->findEntityByNameAndTypes(arg, lockTypes);
 		if (entity != nullptr) {
-			foundExit = true;
-			Exit* exit = dynamic_cast<Exit*>(entity); // downcast to Exit
-			if (exit->getCanClose()) {
-				if (!exit->isLocked()) { // Unlocked exit
-					if (!exit->isClosed()) {
-						exit->inverseClosed();
-						cout << exit->getName() << " is now closed.\n";
-					}
-				}
-				else {
-					cout << exit->getName() << " is locked and cannot be closed.\n";
-				}
-			}
-			else {
-				cout << exit->getName() << " isn't something you can close.\n";
+			foundClose = true;
+			Lockable* close = dynamic_cast<Lockable*>(entity); // downcast to Exit
+			if (close != nullptr) {
+				close->Close(entity->getName());
 			}
 		}
 	}
-	if (!foundExit) {
+	if (!foundClose) {
 		cout << "That's not something you can close.\n";
 	}
+}
+
+void Player::Lock(const vector<string>& args) {
+	if (args.size() < 3) {
+		cout << "What do you want to lock with?\n";
+		return;
+	}
+
+	auto withPrep = find(args.begin(), args.end(), "with");
+	if (withPrep != args.end()) {
+		
+	}
+}
+
+void Player::Unlock(const vector<string>& args) {
+
 }

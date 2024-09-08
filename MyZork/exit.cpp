@@ -6,8 +6,8 @@
 using namespace std;
 
 
-Exit::Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination, bool isContainer, const string& examineText, const bool canClose, bool closed, bool locked)
-	: Entity(name, description, isContainer, examineText), direction(direction), source(source), destination(destination), canClose(canClose), closed(closed) , locked(locked) {
+Exit::Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination, bool isContainer, const string& examineText, bool canClose, bool closed, bool locked)
+	: Entity(name, description, isContainer, examineText), Lockable(canClose, closed, locked), direction(direction), source(source), destination(destination) {
 
 	this->type = TypesEntities::Exit;
 }
@@ -24,6 +24,9 @@ void Exit::Examine() const {
 	else {
 		cout << "I see nothing special about " << name << ".\n";
 	}
+
+	//cout << "It seems like " << name << " leads to " << directionToString(direction) << ".\n";
+
 	if (canClose) {
 		string state;
 		if (locked) { // if locked is closed
@@ -52,34 +55,4 @@ Room* Exit::getSource() const {
 
 Room* Exit::getDestination() const {
 	return destination;
-}
-
-bool Exit::isClosed() const {
-	return closed;
-}
-
-bool Exit::isLocked() const {
-	return locked;
-}
-
-const bool Exit::getCanClose() const {
-	return canClose;
-}
-
-void Exit::inverseClosed() {
-	if (closed) {
-		closed = false;
-	}
-	else {
-		closed = true;
-	}
-}
-
-void Exit::inverseLocked() {
-	if (locked) {
-		locked = false;
-	}
-	else {
-		locked = true;
-	}
 }
