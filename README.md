@@ -16,7 +16,7 @@ Zork is a classic text-based adventure game (first released in 1977) where playe
 
 This project is licensed under the [MIT License](LICENSE).
 
-## Information
+## Project structure
 
 The development of this project had a duration of seven days and is divided in the following files:
 
@@ -51,6 +51,10 @@ zork-project-base/
     ├── world.cpp
     └── world.h
 ```
+
+## Zork's World Map
+
+![World map]([URL del archivo](https://github.com/SirKaza/MyZork/blob/master/WorldMap.png))
 
 ## Guide to play
 
@@ -108,14 +112,33 @@ zork-project-base/
 
 4. How to Win:
    - The game is won by defeating the `Ogre` which remains in the `Arena` room. To achieve this the player will need to equip either a weapon or a shield. If not, the `Ogre` will be stronger.
-   - To get to the `Arena` room, player will need to do these certains actions:
-       - Move from `Parking` to `Forest`.
-       - Take the `Keycard` from `Leaves`.
-       - Open the `Hatch`.
-       - Move from `Forest` to `Laboratory`.
-       - Unlock `Door` with `Keycard`.
-       - Open `Door`.
-       - Move from `Laboratory` to `Arena`.
+       - To get to the `Arena` room, player will need to do these certains actions:
+           - Move from `Parking` to `Forest`.
+           - Take the `Keycard` from `Leaves` (examine `Leaves`).
+           - Open the `Hatch`  (examine `Hatch`).
+           - Move from `Forest` to `Laboratory`.
+           - Unlock `Door` with `Keycard` (examine `Door`).
+           - Open `Door`.
+           - Move from `Laboratory` to `Arena`.
+       - To equip a weapon from start, player will need to do these certains actions:
+           - Move from `Parking` to `Picnic`.
+           - Take the `Keychain` from `Table` (examine `Table`).
+           - Move from `Picnic` to `Parking`.
+           - Unlock `Car` with `Keychain` (examine `Keychain`) (examine `Car`).
+           - Open `Car`.
+           - Take the `Sword` from `Car` (examine `Car`).
+           - Equip the `Sword`.
+       - To equip a shield from start, player will need to do these certains actions:
+           - Move from `Parking` to `Picnic`.
+           - Take the `Keychain` from `Table` (examine `Table`).
+           - Move from `Picnic` to `Parking`.
+           - Move from `Parking` to `Forest`.
+           - Open the `Hatch`  (examine `Hatch`).
+           - Move from `Forest` to `Laboratory`.
+           - Unlock `Box` with `Keychain` (examine `Box`) (take `Box`).
+           - Open `Box`.
+           - Take the `Shield` from `Box` (examine `Box`).
+           - Equip the `Shield`.
 
 ## Versions Used
 
