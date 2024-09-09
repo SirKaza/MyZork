@@ -19,6 +19,11 @@ Player::~Player() {
 
 }
 
+void Player::Look() const {
+	cout << name << ": " << description << "\n";
+	Inventory();
+}
+
 bool Player::Go(const string& direction) {
 	Direction dir = stringToDirection(direction);
 

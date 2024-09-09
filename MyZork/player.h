@@ -13,6 +13,7 @@ class Player :
         Player(const string& name, const string& description, Room* location, const string& examineText = "");
         ~Player();
 
+        void Look() const;
         bool Go(const string& direction);
         void Take(const vector<string>& args);
         void Inventory() const;

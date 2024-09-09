@@ -35,8 +35,10 @@ World::World(const string& playerName) {
 	Item* box = new Item("Box", "A small metal box.", true, true, "The small metal box is cold and heavy. It has intricate designs carved into its surface and a small, peculiarly shaped lock on the front.", TypesItems::Normal, true, true, false, keychain->getName());
 	Item* sword = new Item("Sword", "A long metal sword.", true, false, "", TypesItems::Weapon);
 	Item* shield = new Item("Shield", "A small metal shield.", true, false, "", TypesItems::Shield);
+	Item* club = new Item("Club", "A big wooden club.", true, false, "", TypesItems::Weapon);
 	sword->setDmg(4);
 	shield->setDmg(-2);
+	club->setDmg(3);
 
 	Item* leaves = new Item("Leaves", "There is a pile of leaves grouped near one of the trees.", false, true, "You carefully move the leaves aside and uncover a keycard. It's an access card with a strange logo.");
 	Item* table = new Item("Table", "An old wooden table, worn by time and use.", false, true, "You look closely at the table and discover a keychain in one of the fissure of the table.");
@@ -84,9 +86,10 @@ World::World(const string& playerName) {
 	// ---- Creatures ----
 	player = new Player(playerName, "An ambitious adventurer.", parking);
 	Creature* boss = new Creature("Ogre", "A huge, burly creature with thick green skin and a menacing presence.", arena, "It seems dangerous, better be well prepared before acting.");
-
-	entities.push_back(player);
 	
+	entities.push_back(player);
+	entities.push_back(boss);
+
 	// setContains items
 	table->setContains(keychain);
 	picnic->setContains(table);
@@ -100,8 +103,8 @@ World::World(const string& playerName) {
 	box->setContains(shield);
 	laboratory->setContains(box);
 
+	boss->setWeapon(club);
 	arena->setContains(boss);
-	
 }
 
 World::~World() {

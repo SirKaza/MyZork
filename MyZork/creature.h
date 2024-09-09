@@ -22,7 +22,7 @@ class Creature :
         virtual void Inventory() const;
         virtual void Drop(const vector<string>& args);
         virtual void Put(const vector<string>& args);
-        virtual void Examine(const vector<string>& args);
+        void Examine() const;
         virtual void Open(const vector<string>& args);
         virtual void Close(const vector<string>& args);
         virtual void Lock(const vector<string>& args);
@@ -34,6 +34,9 @@ class Creature :
         Room* getLocation() const;
         Item* getWeapon() const;
         Item* getShield() const;
+        void setWeapon(Item* equip);
+        void setShield(Item* equip);
+
         int getHp() const;
         void reduceHp(int damage);
         bool isDead() const;

@@ -22,7 +22,6 @@ Creature::~Creature() {
 void Creature::Look() const {
 	if (location != nullptr) {
 		cout << name << ": " << description << "\n";
-		Inventory();
 	}
 }
 
@@ -54,7 +53,7 @@ void Creature::Put(const vector<string>& args) {
 
 }
 
-void Creature::Examine(const vector<string>& args) {
+void Creature::Examine() const {
 	if (!examineText.empty()) {
 		cout << examineText << "\n";
 	}
@@ -234,4 +233,12 @@ bool Creature::isDead() const {
 	else {
 		return false;
 	}
+}
+
+void Creature::setWeapon(Item* equip) {
+	weapon = equip;
+}
+
+void Creature::setShield(Item* equip) {
+	shield = equip;
 }
