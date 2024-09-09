@@ -19,11 +19,6 @@ Player::~Player() {
 
 }
 
-void Player::Look() const {
-	cout << name << "\n";
-	cout << description << "\n";
-}
-
 bool Player::Go(const string& direction) {
 	Direction dir = stringToDirection(direction);
 
@@ -170,9 +165,10 @@ void Player::Inventory() const {
 	else {
 		cout << "You are carrying:\n";
 		for (Entity* entity : contains) {
-			displayContains(entity, 0);
+			displayContains(entity, 1);
 		}
 	}
+	Creature::Inventory(); // equipped
 }
 
 void Player::Drop(const vector<string>& args) {
@@ -320,6 +316,7 @@ void Player::Open(const vector<string>& args) {
 		cout << "That's not something you can open.\n";
 	}
 }
+
 void Player::Close(const vector<string>& args) {
 	bool foundClose = false;
 	for (const string& arg : args) {
@@ -435,12 +432,4 @@ void Player::Unlock(const vector<string>& args) {
 	else {
 		cout << "You need to specify what to unlock with.\n";
 	}
-}
-
-void Player::Equip(const vector<string>& args) {
-
-}
-
-void Player::Unequip(const vector<string>& args) {
-
 }

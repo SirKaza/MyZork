@@ -13,7 +13,6 @@ class Player :
         Player(const string& name, const string& description, Room* location, const string& examineText = "");
         ~Player();
 
-        void Look() const;
         bool Go(const string& direction);
         void Take(const vector<string>& args);
         void Inventory() const;
@@ -24,7 +23,4 @@ class Player :
         void Close(const vector<string>& args);
         void Lock(const vector<string>& args);
         void Unlock(const vector<string>& args);
-        void Equip(const vector<string>& args);
-        void Unequip(const vector<string>& args);
-        void Attack(const vector<string>& args);
 };

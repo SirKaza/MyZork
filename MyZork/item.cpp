@@ -29,7 +29,7 @@ void Item::Examine() const {
 			else {
 				cout << getName() << " contains:\n";
 				for (Entity* entity : getContains()) {
-					displayContains(entity, 0);
+					displayContains(entity, 1);
 				}
 			}
 		}
