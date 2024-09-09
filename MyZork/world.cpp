@@ -32,7 +32,7 @@ World::World(const string& playerName) {
 	// ---- Items ----
 	Item* keychain = new Item("Keychain", "There are 2 keys on the keychain, one is a car key and the other is unknown.", true, false, "The keychain is well-used, with two keys hanging from it. The car key is slightly larger than the other, which has a unique shape.");
 	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.", true, false, "This key card is covered in dirt and the logo is barely visible. It probably opens a door.");
-	Item* box = new Item("Box", "A small metal box.", true, true, "The small metal box is cold and heavy. It has intricate designs carved into its surface and a small, peculiarly shaped lock on the front.", TypesItems::Normal, true, true, false, keychain->getName());
+	Item* box = new Item("Box", "A small metal box.", true, true, "The small metal box is cold and heavy. It has intricate designs carved into its surface and a small, peculiarly shaped lock on the front.", TypesItems::Normal, true, true, true, keychain->getName());
 	Item* sword = new Item("Sword", "A long metal sword.", true, false, "", TypesItems::Weapon);
 	Item* shield = new Item("Shield", "A small metal shield.", true, false, "", TypesItems::Shield);
 	Item* club = new Item("Club", "A big wooden club.", true, false, "", TypesItems::Weapon);

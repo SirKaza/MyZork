@@ -34,15 +34,22 @@ void Creature::Take(const vector<string>& args) {
 }
 
 void Creature::Inventory() const {
-	if (weapon != nullptr || shield != nullptr) {
-		cout << "Equipment:\n";
-		if (weapon != nullptr) {
-			cout << " Weapon: " << weapon->getName() << ".\n";
-		}
-		if (shield != nullptr) {
-			cout << " Shield: " << shield->getName() << ".\n";
-		}
+
+	cout << "Equipment:\n";
+	if (weapon != nullptr) {
+		cout << " Weapon: " << weapon->getName() << ".\n";
+		cout << "  Damage: " << weapon->getDmg() << "\n";
 	}
+	else { // hands
+		cout << " Weapon: Hands.\n  Damage: 2\n";
+	}
+
+	if (shield != nullptr) {
+		cout << " Shield: " << shield->getName() << ".\n";
+		cout << "  Counter Damage: " << shield->getDmg() << "\n";
+	}
+
+	cout << "Currently health: " << hp << "\n";
 }
 
 void Creature::Drop(const vector<string>& args) {
@@ -65,11 +72,18 @@ void Creature::Examine() const {
 		cout << "Has equipped:\n";
 		if (weapon != nullptr) {
 			cout << " Weapon: " << weapon->getName() << ".\n";
+			cout << "  Damage: " << weapon->getDmg() << "\n";
 		}
+		else { // hands
+			cout << " Weapon: Hands.\n  Damage: 2\n";
+		}
+
 		if (shield != nullptr) {
 			cout << " Shield: " << shield->getName() << ".\n";
+			cout << "  Counter Damage: " << shield->getDmg() << "\n";
 		}
 	}
+	cout << "Currently health: " << hp << "\n";
 }
 
 void Creature::Open(const vector<string>& args) {
@@ -144,7 +158,7 @@ void Creature::Unequip(const vector<string>& args) {
 				weapon = nullptr;
 			}
 			else {
-				cout << "You don't have a weapon equipped.\n";
+				cout << "You can't unequip your hands.\n";
 			}
 		}
 		else if (itemType == "shield") {

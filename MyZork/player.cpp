@@ -166,11 +166,8 @@ void Player::Inventory() const {
 	else {
 		cout << "You are carrying:\n";
 		for (Entity* entity : contains) {
-			Item* item = dynamic_cast<Item*>(entity);
-			if (item != nullptr) {
-				if (!item->isClosed()) { // if item is not closed print inside
-					displayContains(entity, 1);
-				}
+			if (Item* item = dynamic_cast<Item*>(entity)) {
+				displayContains(item, 1);
 			}
 		}
 	}
@@ -362,6 +359,13 @@ void Player::Lock(const vector<string>& args) {
 					break;
 				}
 			}
+			entity = findEntityByNameAndTypes(*it, lockTypes);
+			if (entity != nullptr) {
+				lockable = dynamic_cast<Lockable*>(entity);
+				if (lockable != nullptr) { // if find a lockable stop
+					break;
+				}
+			}
 		}
 
 		if (entity == nullptr) {
@@ -378,7 +382,7 @@ void Player::Lock(const vector<string>& args) {
 		}
 
 		if (itemToLockWith == nullptr) {
-			cout << "That will not lock " << entity->getName() << ".\n";
+			cout << entity->getName() << " it's not in your inventory.\n";
 			return;
 		}
 
@@ -401,7 +405,14 @@ void Player::Unlock(const vector<string>& args) {
 		Lockable* lockable = nullptr; // thing to lock
 		Entity* entity = nullptr;
 		for (auto it = args.begin(); it != withPrep + 1; ++it) {
-			entity = location->findEntityByNameAndTypes(*it, lockTypes);
+			entity = location->findEntityByNameAndTypes(*it, lockTypes); // lockable in room
+			if (entity != nullptr) {
+				lockable = dynamic_cast<Lockable*>(entity);
+				if (lockable != nullptr) { // if find a lockable stop
+					break;
+				}
+			}
+			entity = findEntityByNameAndTypes(*it, lockTypes); // lockable in inventory
 			if (entity != nullptr) {
 				lockable = dynamic_cast<Lockable*>(entity);
 				if (lockable != nullptr) { // if find a lockable stop
@@ -415,20 +426,20 @@ void Player::Unlock(const vector<string>& args) {
 			return;
 		}
 
-		Entity* itemToLockWith = nullptr; // search item to lock with
+		Entity* itemToUnockWith = nullptr; // search item to lock with
 		for (auto it = withPrep + 1; it != args.end(); ++it) {
-			itemToLockWith = findEntityByNameAndType(*it, TypesEntities::Item);
-			if (itemToLockWith != nullptr) {
+			itemToUnockWith = findEntityByNameAndType(*it, TypesEntities::Item);
+			if (itemToUnockWith != nullptr) {
 				break;
 			}
 		}
 
-		if (itemToLockWith == nullptr) {
-			cout << "That will not unlock " << entity->getName() << ".\n";
+		if (itemToUnockWith == nullptr) {
+			cout << entity->getName() << " it's not in your inventory.\n";
 			return;
 		}
 
-		lockable->Unlock(entity->getName(), itemToLockWith->getName()); // try to unlock
+		lockable->Unlock(entity->getName(), itemToUnockWith->getName()); // try to unlock
 	}
 	else {
 		cout << "You need to specify what to unlock with.\n";
@@ -476,7 +487,7 @@ void Player::Attack(const vector<string>& args, bool& gameEnded) {
 		location->removeEntity(creature); 
 
 		// end game
-		cout << "Congratulations " << name << " for completing Zork!" << endl;
+		cout << name << " completed Zork. Congratulations!\n" << endl;
 		gameEnded = true; 
 	}
 	else {

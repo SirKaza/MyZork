@@ -22,7 +22,7 @@ class Entity
 		Entity* findEntityByNameAndTypes(const string& entityName, const set<TypesEntities>& types);
 		void removeEntity(Entity* entity);
 
-		void displayContains(const Entity* entity, int level) const;
+		void displayContains(Entity* item, int level) const;
 		
 		void setContains(Entity* object);
 		list<Entity*> getContains() const;

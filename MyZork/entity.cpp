@@ -1,5 +1,6 @@
 #include "entity.h"
 #include "actions.h"
+#include "item.h"
 #include <iostream>
 #include <string>
 #include <set>
@@ -111,15 +112,19 @@ TypesEntities Entity::getType() const {
 	return type;
 }
 
-void Entity::displayContains(const Entity* entity, int level) const {
+void Entity::displayContains(Entity* entity, int level) const {
 	for (int i = 0; i < level; ++i) {
 		cout << " ";
 	}
 	cout << entity->getName() << "\n";
 
-	if (!entity->getContains().empty()) { // item inside
-		for (const Entity* inside : entity->getContains()) {
-			displayContains(inside, level + 1); // recursion through items inside
+	if (Item* item = dynamic_cast<Item*>(entity)) {
+		if (!item->isClosed()) { // if item is not closed print inside
+			if (!item->getContains().empty()) { // item inside
+				for (Entity* inside : item->getContains()) {
+					displayContains(inside, level + 1); // recursion through items inside
+				}
+			}
 		}
 	}
 }

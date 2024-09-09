@@ -74,6 +74,7 @@ void Lockable::Close(const string& name) {
 void Lockable::Lock(const string& lockName, const string& keyName) {
     if (!closed) {
         cout << "You need to close " << lockName << " first before locking.\n";
+        return;
     }
 
     // Check if the provided key is the correct key for locking
@@ -89,6 +90,7 @@ void Lockable::Lock(const string& lockName, const string& keyName) {
 void Lockable::Unlock(const string& lockName, const string& keyName) {
     if (!locked) {
         cout << lockName << " is already unlocked.\n";
+        return;
     }
 
     // Check if the provided key is the correct key for unlocking
