@@ -142,5 +142,5 @@ zork-project-base/
 
 - IDE: 
   - Visual Studio 2019 Community: 16.11.39
-- Llenguatge:
+- Language:
   - C++: standard ISO C++14
