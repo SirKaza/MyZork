@@ -27,6 +27,7 @@ zork-project-base/
 ├── MyZork.sln
 ├── LICENSE
 ├── README.md
+├── WorldMap.png
 └── MyZork/
     ├── MyZork.vcxproj
     ├── MyZork.vcxproj.filters
