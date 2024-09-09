@@ -13,7 +13,7 @@ class World
 		World(const string& playerName);
 		~World();
 
-		void handleCommand(string& input);
+		void handleCommand(string& input, bool& gameEnded);
 
 	private:
 		list<Entity*> entities;

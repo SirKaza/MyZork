@@ -9,6 +9,7 @@ using namespace std;
 int main() {
 	string input;
 	string playerName;
+	bool gameEnded = false;
 	
 	cout << "Welcome to my Zork!" << endl;
 	cout << "What is your name? " << endl;
@@ -17,12 +18,12 @@ int main() {
 	World* myWorld = new World(playerName); // Create World
 
 	input = "look";
-	myWorld->handleCommand(input);
+	myWorld->handleCommand(input, gameEnded);
 
-	while (true) {
+	while (!gameEnded) {
 
 		getline(cin, input); // Player decision
-		myWorld->handleCommand(input);
+		myWorld->handleCommand(input, gameEnded);
 
 	}
 

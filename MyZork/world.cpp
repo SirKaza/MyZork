@@ -113,7 +113,7 @@ World::~World() {
 	}
 }
 
-void World::handleCommand(string& input) {
+void World::handleCommand(string& input, bool& gameEnded) {
 	istringstream iss(input);
 	string command;
 	vector<string> args;
@@ -208,8 +208,8 @@ void World::handleCommand(string& input) {
 			getline(cin, command); // Ask for confirmation
 
 			if (command == "yes" || command == "y") {
-				cout << "Thank you for playing! Goodbye!" << endl;
-				exit(0); // Exit the loop
+				cout << "Thanks " << player->getName() << " for playing! Goodbye!" << endl;
+				gameEnded = true;
 			}
 			break;
 
@@ -304,7 +304,7 @@ void World::handleCommand(string& input) {
 			break;
 
 		case Action::Repeat:
-			handleCommand(lastInput);
+			handleCommand(lastInput, gameEnded);
 			break;
 
 		case Action::Extra:
