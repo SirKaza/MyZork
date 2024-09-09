@@ -393,7 +393,7 @@ void Player::Lock(const vector<string>& args) {
 
 void Player::Unlock(const vector<string>& args) {
 	if (args.size() < 3) {
-		cout << "What do you want to lock with?\n";
+		cout << "What do you want to unlock with?\n";
 		return;
 	}
 
@@ -413,7 +413,7 @@ void Player::Unlock(const vector<string>& args) {
 		}
 
 		if (lockable == nullptr || entity == nullptr) {
-			cout << "You can't see anything to lock.\n";
+			cout << "You can't see anything to unlock.\n";
 			return;
 		}
 
@@ -426,14 +426,14 @@ void Player::Unlock(const vector<string>& args) {
 		}
 
 		if (itemToLockWith == nullptr) {
-			cout << "That will not lock " << entity->getName() << ".\n";
+			cout << "That will not unlock " << entity->getName() << ".\n";
 			return;
 		}
 
 		lockable->Unlock(entity->getName(), itemToLockWith->getName()); // try to unlock
 	}
 	else {
-		cout << "You need to specify what to lock with.\n";
+		cout << "You need to specify what to unlock with.\n";
 	}
 }
 

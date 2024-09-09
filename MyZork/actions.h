@@ -13,6 +13,12 @@ enum class TypesEntities {
     Player
 };
 
+enum class TypesItems {
+    Normal,
+    Weapon,
+    Shield
+};
+
 enum class Action {
     Look,
     Go,

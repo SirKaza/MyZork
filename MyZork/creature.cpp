@@ -20,14 +20,8 @@ Room* Creature::getLocation() const {
 }
 
 void Creature::Look() const {
-	cout << name << "\n";
-	cout << description << "\n";
-
 	if (location != nullptr) {
-		cout << location->getName() << "\n";
-	}
-	else {
-		cout << "Unknown location.\n";
+		cout << name << ": " << description << "\n";
 	}
 }
 

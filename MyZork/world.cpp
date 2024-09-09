@@ -83,7 +83,7 @@ World::World(const string& playerName) {
 
 	// ---- Creatures ----
 	player = new Player(playerName, "An ambitious adventurer.", parking);
-	Creature* boss = new Creature("Ogre", "A huge, burly creature with thick green skin and a menacing presence.", arena);
+	Creature* boss = new Creature("Ogre", "A huge, burly creature with thick green skin and a menacing presence.", arena, "It seems dangerous, better be well prepared before acting.");
 
 	entities.push_back(player);
 	
