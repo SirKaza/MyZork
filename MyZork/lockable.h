@@ -15,6 +15,8 @@ class Lockable
         bool isClosed();
         bool isLocked();
 
+        void Examine(const string& name) const;
+
         void Open(const string& name);
         void Close(const string& name);
         void Lock(const string& name);

@@ -25,6 +25,22 @@ bool Lockable::isLocked() {
 	return locked;
 }
 
+void Lockable::Examine(const string& name) const {
+    if (canClose) {
+        string state;
+        if (locked) { // if locked is closed
+            state = "locked";
+        }
+        else if (!locked && closed) { // unlocked & closed
+            state = "closed";
+        }
+        else { // opened
+            state = "opened";
+        }
+        cout << "Looking closely, you notice that " << name << " is " << state << ".\n";
+    }
+}
+
 void Lockable::Open(const string& name) {
     if (canClose && !locked && closed) {
         closed = false;
