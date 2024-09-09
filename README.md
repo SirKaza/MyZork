@@ -71,8 +71,6 @@ zork-project-base/
    - The game uses text commands to interact with the world. Here are the available commands:
      
   ```
-   ===== HELP MENU =====
-   You can use the following commands:
    - look / l: Look around the current room or player.
      Example: 'look' to look room or 'look (me/myself/name of player)' to look player.
    - go [direction]: Move in a direction (north, south, east, west, up, down).
@@ -107,7 +105,6 @@ zork-project-base/
    - shout / yell / scream: Express your feelings.
    - jump / zork: Perform a fun, silly action.
    - help / h: Show this help menu.
-   ======================
    ```
 
 4. How to Win:
