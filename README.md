@@ -109,7 +109,7 @@ zork-project-base/
 
 4. How to Win:
    - The game is won by defeating the `Ogre` which remains in the `Arena` room. To achieve this the player will need to equip either a weapon or a shield. If not, the `Ogre` will be stronger.
-       - To get to the `Arena` room, player will need to do these certains actions:
+       - To get to the `Arena` room from start, player will need to do these certains actions:
            - Move from `Parking` to `Forest`.
            - Take the `Keycard` from `Leaves` (examine `Leaves`).
            - Open the `Hatch`  (examine `Hatch`).
