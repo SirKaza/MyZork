@@ -81,12 +81,26 @@ void printHelp() {
 	cout << "    Example: 'examine leaves'.\n";
 	cout << "  - put [item] in [container]: Put an item into a container.\n";
 	cout << "    Example: 'put keycard in box'.\n";
-	cout << "  - inventory / i: Check your inventory.\n";
+	cout << "  - open [something]: Open an exit or container.\n";
+	cout << "    Example: 'open box'.\n";
+	cout << "  - close [something]: Close an exit or container.\n";
+	cout << "    Example: 'close box'.\n";
+	cout << "  - lock [something] with [item]: Lock something using a item as a key.\n";
+	cout << "    Example: 'lock box with keychain'.\n";
+	cout << "  - unlock [something] with [item]: Unlock something using a item as a key.\n";
+	cout << "    Example: 'unlock box with keychain'.\n";
+	cout << "  - equip [item]: Equip an item, such as a weapon or shield.\n";
+	cout << "    Example: 'equip sword'.\n";
+	cout << "  - unequip [item]: Unequip an currently equipped item.\n";
+	cout << "    Example: 'unequip sword'.\n";
+	cout << "  - attack [someone]: Attack an enemy.\n";
+	cout << "    Example: 'attack ogre'.\n";
+	cout << "  - inventory / i: Check your inventory and equipment.\n";
 	cout << "  - quit / q: Quit the game.\n";
 	cout << "  - repeat: Repeats the last command you entered.\n";
 	cout << "  - shout / yell / scream: Express your feelings.\n";
 	cout << "  - jump / zork: Perform a fun, silly action.\n";
-	cout << "  - help: Show this help menu.\n";
+	cout << "  - help / h: Show this help menu.\n";
 	cout << "======================\n";
 }
 
