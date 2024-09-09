@@ -165,7 +165,12 @@ void Player::Inventory() const {
 	else {
 		cout << "You are carrying:\n";
 		for (Entity* entity : contains) {
-			displayContains(entity, 1);
+			Item* item = dynamic_cast<Item*>(entity);
+			if (item != nullptr) {
+				if (!item->isClosed()) { // if item is not closed print inside
+					displayContains(entity, 1);
+				}
+			}
 		}
 	}
 	Creature::Inventory(); // equipped
@@ -431,5 +436,55 @@ void Player::Unlock(const vector<string>& args) {
 	}
 	else {
 		cout << "You need to specify what to unlock with.\n";
+	}
+}
+
+void Player::Attack(const vector<string>& args, bool& gameEnded) {
+	Creature* creature = nullptr;
+	for (const string& arg : args) {
+		creature = dynamic_cast<Creature*>(location->findEntityByNameAndType(arg, TypesEntities::Creature));
+		if (creature != nullptr) {
+			break;
+		}
+	}
+
+	if (creature == nullptr) {
+		cout << "You can't see any such thing to attack.\n";
+		return;
+	}
+
+	int damage = 0;
+	if (weapon != nullptr) { // has weapon equipped
+		damage = weapon->getDmg();
+		cout << "You attack " << creature->getName() << " with " << weapon->getName() << "!\n";
+	}
+	else {
+		damage = 2; // base damage with hands
+		cout << "You punch " << creature->getName() << " with your bare hands!\n";
+	}
+
+	if (creature->getShield() != nullptr) { // enemy has shield
+		damage += creature->getShield()->getDmg();
+	}
+
+	if (damage < 0) { // dmg cant be negative
+		damage = 0;
+	}
+
+	// apply damage to creature
+	cout << "Dealing " << damage << " damage to " << creature->getName() << ".\n";
+	creature->reduceHp(damage); 
+	
+	if (creature->isDead()) { // enemy is dead
+		cout << creature->getName() << " has been slain!\n";
+		location->removeEntity(creature); 
+
+		// end game
+		cout << "Congratulations " << name << " for completing Zork!" << endl;
+		gameEnded = true; 
+	}
+	else {
+		cout << creature->getName() << " has " << creature->getHp() << " health remaining.\n";
+		creature->RetAttack(this, gameEnded); // enemy returns attack
 	}
 }

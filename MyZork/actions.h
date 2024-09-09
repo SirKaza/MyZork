@@ -61,5 +61,3 @@ Direction stringToDirection(const string& direction);
 string directionToString(Direction direction);
 
 void printHelp();
-
-

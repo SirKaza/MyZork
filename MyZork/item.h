@@ -17,9 +17,12 @@ class Item :
         bool isPickable() const;
         const bool getIsContainer() const;
         TypesItems getItemType() const;
+        int getDmg() const;
+        void setDmg(int newDmg);
     private:
         bool pickable; // item can be picked
         bool isContainer; // flag for items that player can put things inside it
         TypesItems itemType;
+        int dmg; // damage of weapon or shield (shield will protect)
 };
 

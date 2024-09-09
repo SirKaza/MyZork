@@ -7,6 +7,7 @@ using namespace std;
 
 class Room;
 class Item;
+class Player;
 
 class Creature :
     public Entity
@@ -28,13 +29,17 @@ class Creature :
         virtual void Unlock(const vector<string>& args);
         virtual void Equip(const vector<string>& args);
         virtual void Unequip(const vector<string>& args);
-        virtual void Attack(const vector<string>& args);
+        void RetAttack(Player* player, bool& gameEnded);
 
         Room* getLocation() const;
         Item* getWeapon() const;
         Item* getShield() const;
+        int getHp() const;
+        void reduceHp(int damage);
+        bool isDead() const;
         
     protected:
+        int hp;
         Room* location;
         Item* weapon;
         Item* shield;

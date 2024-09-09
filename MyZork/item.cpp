@@ -7,6 +7,7 @@ Item::Item(const string& name, const string& description, bool pickable, bool is
 	: Entity(name, description, examineText), Lockable(canClose, closed, locked, key), pickable(pickable), isContainer(isContainer), itemType(itemType) {
 	
 	this->type = TypesEntities::Item;
+	this->dmg = 0;
 }
 
 Item::~Item() {
@@ -51,4 +52,10 @@ TypesItems Item::getItemType() const {
 	return itemType;
 }
 
+int Item::getDmg() const {
+	return dmg;
+}
 
+void Item::setDmg(int newDmg) {
+	dmg = newDmg;
+}
