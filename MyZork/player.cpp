@@ -135,8 +135,8 @@ void Player::Take(const vector<string>& args) { // to inventory
 		cout << "You took " << itemFound->getName() << " from " << containerFound->getName() << ".\n";
 
 
-		if (containerFound->getType() == TypesEntities::Entity) { 
-			containerFound->setExamineText(""); // change examineText
+		if (!containerItem->isPickable()) { 
+			containerItem->setExamineText(""); // change examineText
 		}
 	}
 
@@ -231,13 +231,17 @@ void Player::Put(const vector<string>& args) {
 		if (entity != nullptr) { // item found
 			containerFound = dynamic_cast<Item*>(entity); // downcast to Item
 			if (containerFound != nullptr) {
-				if (containerFound->getIsContainer()) {
-					containerFound->setContains(itemFound);
-					removeEntity(itemFound);
-					cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
+				if (!containerFound->isClosed()) { 
+					if (containerFound->getIsContainer()) {
+						containerFound->setContains(itemFound);
+						removeEntity(itemFound);
+						cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
+						return;
+					}
+					cout << "That can't contain things.\n";
 					return;
 				}
-				cout << "That can't contain things.\n";
+				cout << containerFound->getName() << " is closed.\n";
 				return;
 			}
 		}
@@ -245,13 +249,17 @@ void Player::Put(const vector<string>& args) {
 		if (entity != nullptr) { // item found
 			containerFound = dynamic_cast<Item*>(entity); // downcast to Item
 			if (containerFound != nullptr) {
-				if (containerFound->getIsContainer()) {
-					containerFound->setContains(itemFound);
-					removeEntity(itemFound);
-					cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
+				if (!containerFound->isClosed()) { // open
+					if (containerFound->getIsContainer()) {
+						containerFound->setContains(itemFound);
+						removeEntity(itemFound);
+						cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
+						return;
+					}
+					cout << "That can't contain things.\n";
 					return;
 				}
-				cout << "That can't contain things.\n";
+				cout << containerFound->getName() << " is closed.\n";
 				return;
 			}
 		}
@@ -298,6 +306,15 @@ void Player::Open(const vector<string>& args) {
 				open->Open(entity->getName());
 			}
 		}
+		entity = findEntityByNameAndTypes(arg, lockTypes); // open item in invetory
+		if (entity != nullptr) {
+			foundOpen = true;
+			Lockable* open = dynamic_cast<Lockable*>(entity); // downcast to Lockable
+
+			if (open != nullptr) {
+				open->Open(entity->getName());
+			}
+		}
 	}
 	if (!foundOpen) {
 		cout << "That's not something you can open.\n";
@@ -307,6 +324,14 @@ void Player::Close(const vector<string>& args) {
 	bool foundClose = false;
 	for (const string& arg : args) {
 		Entity* entity = location->findEntityByNameAndTypes(arg, lockTypes);
+		if (entity != nullptr) {
+			foundClose = true;
+			Lockable* close = dynamic_cast<Lockable*>(entity); // downcast to Exit
+			if (close != nullptr) {
+				close->Close(entity->getName());
+			}
+		}
+		entity = findEntityByNameAndTypes(arg, lockTypes); // close item in invetory
 		if (entity != nullptr) {
 			foundClose = true;
 			Lockable* close = dynamic_cast<Lockable*>(entity); // downcast to Exit
@@ -328,10 +353,98 @@ void Player::Lock(const vector<string>& args) {
 
 	auto withPrep = find(args.begin(), args.end(), "with");
 	if (withPrep != args.end()) {
-		
+
+		Lockable* lockable = nullptr;
+		Entity* entity = nullptr;
+		for (auto it = args.begin(); it != withPrep + 1; ++it) {
+			entity = location->findEntityByNameAndTypes(*it, lockTypes);
+			if (entity != nullptr) {
+				lockable = dynamic_cast<Lockable*>(entity);
+				if (lockable != nullptr) { // if find a lockable stop
+					break;
+				}
+			}
+		}
+
+		if (entity == nullptr) {
+			cout << "You can't see anything to lock.\n";
+			return;
+		}
+
+		Entity* itemToLockWith = nullptr; // search item to lock with
+		for (auto it = withPrep + 1; it != args.end(); ++it) {
+			itemToLockWith = findEntityByNameAndType(*it, TypesEntities::Item);
+			if (itemToLockWith != nullptr) {
+				break;
+			}
+		}
+
+		if (itemToLockWith == nullptr) {
+			cout << "That will not lock " << entity->getName() << ".\n";
+			return;
+		}
+
+		lockable->Lock(entity->getName(), itemToLockWith->getName()); // try to lock
+	}
+	else {
+		cout << "You need to specify what to lock with.\n";
 	}
 }
 
 void Player::Unlock(const vector<string>& args) {
+	if (args.size() < 3) {
+		cout << "What do you want to lock with?\n";
+		return;
+	}
+
+	auto withPrep = find(args.begin(), args.end(), "with");
+	if (withPrep != args.end()) {
+
+		Lockable* lockable = nullptr; // thing to lock
+		Entity* entity = nullptr;
+		for (auto it = args.begin(); it != withPrep + 1; ++it) {
+			entity = location->findEntityByNameAndTypes(*it, lockTypes);
+			if (entity != nullptr) {
+				lockable = dynamic_cast<Lockable*>(entity);
+				if (lockable != nullptr) { // if find a lockable stop
+					break;
+				}
+			}
+		}
+
+		if (lockable == nullptr || entity == nullptr) {
+			cout << "You can't see anything to lock.\n";
+			return;
+		}
+
+		Entity* itemToLockWith = nullptr; // search item to lock with
+		for (auto it = withPrep + 1; it != args.end(); ++it) {
+			itemToLockWith = findEntityByNameAndType(*it, TypesEntities::Item);
+			if (itemToLockWith != nullptr) {
+				break;
+			}
+		}
+
+		if (itemToLockWith == nullptr) {
+			cout << "That will not lock " << entity->getName() << ".\n";
+			return;
+		}
+
+		lockable->Unlock(entity->getName(), itemToLockWith->getName()); // try to unlock
+	}
+	else {
+		cout << "You need to specify what to lock with.\n";
+	}
+}
+
+void Player::Equip(const vector<string>& args) {
+
+}
+
+void Player::Unequip(const vector<string>& args) {
+
+}
+
+void Player::Attack(const vector<string>& args) {
 
 }

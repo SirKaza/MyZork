@@ -1,11 +1,12 @@
 #include "lockable.h"
+#include "entity.h"
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-Lockable::Lockable(bool canClose, bool closed, bool locked) 
-	: canClose(canClose), closed(closed), locked(locked) {
+Lockable::Lockable(bool canClose, bool closed, bool locked, const string& key)
+	: canClose(canClose), closed(closed), locked(locked), key(key) {
 
 }
 
@@ -70,22 +71,32 @@ void Lockable::Close(const string& name) {
     }
 }
 
-void Lockable::Lock(const string& name) {
+void Lockable::Lock(const string& lockName, const string& keyName) {
     if (!closed) {
-        cout << "You need to close " << name << " first before locking.\n";
+        cout << "You need to close " << lockName << " first before locking.\n";
+    }
+
+    // Check if the provided key is the correct key for locking
+    if (key == keyName) {
+        locked = true;
+        cout << "You lock " << lockName << " with " << keyName << ".\n";
     }
     else {
-        locked = true;
-        cout << name << " is now locked.\n";
+        cout << keyName << " cannot lock " << lockName << ".\n";
     }
 }
 
-void Lockable::Unlock(const string& name) {
-    if (locked) {
+void Lockable::Unlock(const string& lockName, const string& keyName) {
+    if (!locked) {
+        cout << lockName << " is already unlocked.\n";
+    }
+
+    // Check if the provided key is the correct key for unlocking
+    if (key == keyName) {
         locked = false;
-        cout << name << " is now unlocked.\n";
+        cout << "You unlock " << lockName << " with " << keyName << ".\n";
     }
     else {
-        cout << name << " is already unlocked.\n";
+        cout << keyName <<  " cannot unlock " << lockName << ".\n";
     }
 }

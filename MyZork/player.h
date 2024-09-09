@@ -24,4 +24,7 @@ class Player :
         void Close(const vector<string>& args);
         void Lock(const vector<string>& args);
         void Unlock(const vector<string>& args);
+        void Equip(const vector<string>& args);
+        void Unequip(const vector<string>& args);
+        void Attack(const vector<string>& args);
 };

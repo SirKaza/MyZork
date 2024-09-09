@@ -3,8 +3,8 @@
 
 using namespace std;
 
-Item::Item(const string& name, const string& description, bool pickable, bool isContainer, const string& examineText, bool canClose, bool closed, bool locked)
-	: Entity(name, description, examineText), Lockable(canClose, closed, locked), pickable(pickable), isContainer(isContainer) {
+Item::Item(const string& name, const string& description, bool pickable, bool isContainer, const string& examineText, bool canClose, bool closed, bool locked, const string& key)
+	: Entity(name, description, examineText), Lockable(canClose, closed, locked, key), pickable(pickable), isContainer(isContainer) {
 	
 	this->type = TypesEntities::Item;
 }

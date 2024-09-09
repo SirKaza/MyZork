@@ -12,7 +12,7 @@ class Exit :
     public Entity, public Lockable
 {
     public:
-        Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination, const string& examineText, bool canClose = false, bool closed = false, bool locked = false);
+        Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination, const string& examineText, bool canClose = false, bool closed = false, bool locked = false, const string& key = "");
         ~Exit();
 
         void Examine() const;
