@@ -54,7 +54,7 @@ zork-project-base/
 
 ## Zork's World Map
 
-![World map]([URL del archivo](https://github.com/SirKaza/MyZork/blob/master/WorldMap.png))
+![World map](https://github.com/SirKaza/MyZork/blob/master/WorldMap.png)
 
 ## Guide to play
 
