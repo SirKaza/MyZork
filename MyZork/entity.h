@@ -9,7 +9,7 @@ using namespace std;
 class Entity
 {
 	public:
-		Entity(const string& name, const string& description, bool isContainer, const string& examineText = "");
+		Entity(const string& name, const string& description, const string& examineText = "");
 		virtual ~Entity(); 
 
 		virtual void Update();
@@ -28,9 +28,8 @@ class Entity
 		list<Entity*> getContains() const;
 		list<Entity*> getContainsByType(TypesEntities type) const;
 
-		const bool getIsContainer() const;
 		void setExamineText(const string& newExamineText);
-		void setIsContainer(bool newIsContainer);
+
 
 		const string& getName() const;
 		const string& getDescription() const;
@@ -42,7 +41,6 @@ class Entity
 		string description;
 		list<Entity*> contains; // Inventary (player), Room space and containers (chest)
 
-		bool isContainer; // flag for entities that player can put things inside it (entity & items)
 		string examineText;
 };
 

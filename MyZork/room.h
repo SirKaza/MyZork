@@ -8,7 +8,7 @@ class Room :
     public Entity
 {
     public:
-        Room(const string& name, const string& description, bool isContainer, const string& examineText);
+        Room(const string& name, const string& description, const string& examineText);
         ~Room();
 
         void Look() const;

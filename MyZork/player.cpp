@@ -9,8 +9,8 @@
 
 using namespace std;
 
-Player::Player(const string& name, const string& description, Room* location, bool isContainer, const string& examineText)
-	: Creature(name, description, location, isContainer, examineText) {
+Player::Player(const string& name, const string& description, Room* location, const string& examineText)
+	: Creature(name, description, location, examineText) {
 
 	this->type = TypesEntities::Player;
 }
@@ -37,17 +37,19 @@ bool Player::Go(const string& direction) {
 
 		if (exit != nullptr && exit->getDirection() == dir) {
 			Lockable* lockable = dynamic_cast<Lockable*>(exitEntity); // try downcast to Lockable
-			if (!lockable->isLocked()) {
-				if (!lockable->isClosed()) { // exit open
-					location = exit->getDestination(); // Update player location
-					cout << "You go " << directionToString(exit->getDirection()) << " and arrive to the " << location->getName() << ".\n";
-					return true;
+			if (lockable != nullptr) {
+				if (!lockable->isLocked()) {
+					if (!lockable->isClosed()) { // exit open
+						location = exit->getDestination(); // Update player location
+						cout << "You go " << directionToString(exit->getDirection()) << " and arrive to the " << location->getName() << ".\n";
+						return true;
+					}
+					cout << "You can't go " << directionToString(exit->getDirection()) << " because " << exit->getName() << " is closed.\n";
+					return false;
 				}
-				cout << "You can't go " << directionToString(exit->getDirection()) << " because " << exit->getName() << " is closed.\n";
+				cout << exit->getName() << " is locked.\n";
 				return false;
 			}
-			cout << exit->getName() << " is locked.\n";
-			return false;
 		}
 	}
 	cout << "There is no exit in that direction.\n";
@@ -57,17 +59,24 @@ bool Player::Go(const string& direction) {
 void Player::Take(const vector<string>& args) { // to inventory
 	// First case (take all) ----
 	if (args[0] == "all" || args[0] == "everything") { // take all items in room
-		list<Entity*> items = location->getContainsByType(TypesEntities::Item);
+		list<Entity*> itemsEntities = location->getContainsByType(TypesEntities::Item);
 
-		if (items.empty()) { // room empty of items
-			cout << "There is nothing to take.\n";
-			return;
+		list<Item*> items; 
+
+		bool pickedSomething = false;
+		for (Entity* entity : itemsEntities) {
+			if (Item* item = dynamic_cast<Item*>(entity)) {
+				if (item->isPickable()) {
+					setContains(item);
+					location->removeEntity(item);
+					cout << "You took " << item->getName() << ".\n";
+					pickedSomething = true;
+				}
+			}
 		}
 
-		for (Entity* item : items) {
-			setContains(item); 
-			location->removeEntity(item);
-			cout << "You took " << item->getName() << ".\n";
+		if (!pickedSomething) {
+			cout << "There is nothing to take.\n";
 		}
 		return;
 	}
@@ -85,11 +94,11 @@ void Player::Take(const vector<string>& args) { // to inventory
 
 		Entity* containerFound = nullptr;
 		for (auto it = prepPosition + 1; it != args.end(); ++it) {
-			containerFound = findEntityByNameAndTypes(*it, containerTypes); // find container in inventory
+			containerFound = findEntityByNameAndType(*it, TypesEntities::Item); // find container in inventory
 			if (containerFound != nullptr) { // container exists and isContainer
 				break;
 			}
-			containerFound = location->findEntityByNameAndTypes(*it, containerTypes); // find container in location
+			containerFound = location->findEntityByNameAndType(*it, TypesEntities::Item); // find container in location
 			if (containerFound != nullptr) {
 				break;
 			}
@@ -97,6 +106,14 @@ void Player::Take(const vector<string>& args) { // to inventory
 		if (containerFound == nullptr) {
 			cout << "That can't contain things.\n";
 			return;
+		}
+
+		Item* containerItem = dynamic_cast<Item*>(containerFound);
+		if (containerItem != nullptr) {
+			if (containerItem->isClosed()) {
+				cout << containerItem->getName() << " is closed.\n";
+				return;
+			}
 		}
 
 		Entity* itemFound = nullptr;
@@ -127,12 +144,17 @@ void Player::Take(const vector<string>& args) { // to inventory
 	else { 
 		bool takeSomething = false;
 		for (string arg : args) {
-			Entity* item = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
-			if (item != nullptr) { // item found
-				takeSomething = true;
-				setContains(item); // item in player inventory
-				location->removeEntity(item); // pop item from room
-				cout << "You took " << item->getName() << ".\n";
+			Entity* entity = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
+			if (entity != nullptr) { // item found
+				Item* item = dynamic_cast<Item*>(entity);
+				if (item != nullptr) {
+					if (item->isPickable()) {
+						takeSomething = true;
+						setContains(item); // item in player inventory
+						location->removeEntity(item); // pop item from room
+						cout << "You took " << item->getName() << ".\n";
+					}
+				}
 			}
 		}
 		if (takeSomething == false) { // no item found
@@ -202,29 +224,36 @@ void Player::Put(const vector<string>& args) {
 		return;
 	}
 
-	Entity* containerFound = nullptr;
+	Entity* entity = nullptr;
 	for (auto it = argsCopy.begin(); it != argsCopy.end(); ++it) {
-		containerFound = findEntityByNameAndTypes(*it, containerTypes); // find container in inventory
-		if (containerFound != nullptr) { // item found
-			if (containerFound->getIsContainer()) {
-				containerFound->setContains(itemFound);
-				removeEntity(itemFound);
-				cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
+		entity = findEntityByNameAndType(*it, TypesEntities::Item); // find container in inventory
+		Item* containerFound;
+		if (entity != nullptr) { // item found
+			containerFound = dynamic_cast<Item*>(entity); // downcast to Item
+			if (containerFound != nullptr) {
+				if (containerFound->getIsContainer()) {
+					containerFound->setContains(itemFound);
+					removeEntity(itemFound);
+					cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
+					return;
+				}
+				cout << "That can't contain things.\n";
 				return;
 			}
-			cout << "That can't contain things.\n";
-			return;
 		}
-		containerFound = location->findEntityByNameAndTypes(*it, containerTypes); // find container in room
-		if (containerFound != nullptr) { // item found
-			if (containerFound->getIsContainer()) {
-				containerFound->setContains(itemFound);
-				removeEntity(itemFound);
-				cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
+		entity = location->findEntityByNameAndType(*it, TypesEntities::Item); // find container in room
+		if (entity != nullptr) { // item found
+			containerFound = dynamic_cast<Item*>(entity); // downcast to Item
+			if (containerFound != nullptr) {
+				if (containerFound->getIsContainer()) {
+					containerFound->setContains(itemFound);
+					removeEntity(itemFound);
+					cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
+					return;
+				}
+				cout << "That can't contain things.\n";
 				return;
 			}
-			cout << "That can't contain things.\n";
-			return;
 		}
 	}
 	cout << "You can't see any such thing.\n";
@@ -236,13 +265,13 @@ void Player::Examine(const vector<string>& args) {
 	for (const string& arg : args) {
 		Entity* entity = findEntityByName(arg); // entity in inventory (item)
 		if (entity != nullptr) { //entity found
-			examineEntity(entity);
+			entity->Examine();
 			foundSomething = true;
 			continue;
 		}
 		entity = location->findEntityByName(arg); // entity in room (item, entity, creature, exit)
 		if (entity != nullptr) { //entity found
-			examineEntity(entity);
+			entity->Examine();
 			foundSomething = true;
 			continue;
 		}
@@ -254,22 +283,6 @@ void Player::Examine(const vector<string>& args) {
 	}
 	if (!foundSomething) {
 		cout << "You can't see any such thing.\n";
-	}
-}
-
-void Player::examineEntity(Entity* entity) const {
-	entity->Examine();
-
-	if (entity->getIsContainer()) {
-		if (entity->getContains().empty()) {
-			cout << entity->getName() << " is empty.\n";
-		}
-		else {
-			cout << entity->getName() << " contains:\n";
-			for (Entity* entity : entity->getContains()) {
-				displayContains(entity, 0);
-			}
-		}
 	}
 }
 

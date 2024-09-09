@@ -41,8 +41,6 @@ enum class Direction {
     None
 };
 
-
-const set<TypesEntities> containerTypes = { TypesEntities::Item, TypesEntities::Entity }; // containers can be entities or items
 const set<TypesEntities> lockTypes = { TypesEntities::Item, TypesEntities::Entity, TypesEntities::Exit };
 
 Action stringToAction(const string& command);
