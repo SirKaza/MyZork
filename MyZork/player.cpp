@@ -444,7 +444,3 @@ void Player::Equip(const vector<string>& args) {
 void Player::Unequip(const vector<string>& args) {
 
 }
-
-void Player::Attack(const vector<string>& args) {
-
-}

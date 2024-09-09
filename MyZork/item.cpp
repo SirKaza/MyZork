@@ -3,8 +3,8 @@
 
 using namespace std;
 
-Item::Item(const string& name, const string& description, bool pickable, bool isContainer, const string& examineText, bool canClose, bool closed, bool locked, const string& key)
-	: Entity(name, description, examineText), Lockable(canClose, closed, locked, key), pickable(pickable), isContainer(isContainer) {
+Item::Item(const string& name, const string& description, bool pickable, bool isContainer, const string& examineText, TypesItems itemType, bool canClose, bool closed, bool locked, const string& key)
+	: Entity(name, description, examineText), Lockable(canClose, closed, locked, key), pickable(pickable), isContainer(isContainer), itemType(itemType) {
 	
 	this->type = TypesEntities::Item;
 }
@@ -21,7 +21,6 @@ void Item::Examine() const {
 		cout << "I see nothing special about " << name << ".\n";
 	}
 
-	
 	if (!closed) {
 		if (getIsContainer()) {
 			if (getContains().empty()) {
@@ -46,6 +45,10 @@ bool Item::isPickable() const {
 
 const bool Item::getIsContainer() const {
 	return isContainer;
+}
+
+TypesItems Item::getItemType() const {
+	return itemType;
 }
 
 

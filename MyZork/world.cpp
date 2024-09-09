@@ -32,14 +32,14 @@ World::World(const string& playerName) {
 	// ---- Items ----
 	Item* keychain = new Item("Keychain", "There are 2 keys on the keychain, one is a car key and the other is unknown.", true, false, "The keychain is well-used, with two keys hanging from it. The car key is slightly larger than the other, which has a unique shape.");
 	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.", true, false, "This key card is covered in dirt and the logo is barely visible. It probably opens a door.");
-	Item* box = new Item("Box", "A small metal box.", true, true, "The small metal box is cold and heavy. It has intricate designs carved into its surface and a small, peculiarly shaped lock on the front.", true, true, false, keychain->getName());
-	Item* sword = new Item("Sword", "A long metal sword.", true, false);
-	Item* shield = new Item("Shield", "A small metal shield.", true, false);
+	Item* box = new Item("Box", "A small metal box.", true, true, "The small metal box is cold and heavy. It has intricate designs carved into its surface and a small, peculiarly shaped lock on the front.", TypesItems::Normal, true, true, false, keychain->getName());
+	Item* sword = new Item("Sword", "A long metal sword.", true, false, "", TypesItems::Weapon);
+	Item* shield = new Item("Shield", "A small metal shield.", true, false, "", TypesItems::Shield);
 	Item* treasure = new Item("Treasure", "A treasure chest with plenty of gold.", true, false);
 
 	Item* leaves = new Item("Leaves", "There is a pile of leaves grouped near one of the trees.", false, true, "You carefully move the leaves aside and uncover a keycard. It's an access card with a strange logo.");
 	Item* table = new Item("Table", "An old wooden table, worn by time and use.", false, true, "You look closely at the table and discover a keychain in one of the fissure of the table.");
-	Item* car = new Item("Car", "A dusty old car, parked here for what seems like forever. The paint is chipped and the tires are flat. It looks like it hasn't been driven in a long time.", false, true, "", true, true, true, keychain->getName());
+	Item* car = new Item("Car", "A dusty old car, parked here for what seems like forever. The paint is chipped and the tires are flat. It looks like it hasn't been driven in a long time.", false, true, "", TypesItems::Normal, true, true, true, keychain->getName());
 
 	entities.push_back(keychain);
 	entities.push_back(keycard);
