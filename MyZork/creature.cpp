@@ -15,6 +15,10 @@ Creature::~Creature() {
 
 }
 
+Room* Creature::getLocation() const {
+	return location; // could be null
+}
+
 void Creature::Look() const {
 	cout << name << "\n";
 	cout << description << "\n";
@@ -67,6 +71,14 @@ void Creature::Unlock(const vector<string>& args) {
 
 }
 
-Room* Creature::getLocation() const {
-	return location; // could be null
+void Creature::Equip(const vector<string>& args) {
+
+}
+
+void Creature::Unequip(const vector<string>& args) {
+
+}
+
+void Creature::Attack(const vector<string>& args) {
+
 }

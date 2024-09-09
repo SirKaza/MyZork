@@ -25,6 +25,9 @@ class Creature :
         virtual void Close(const vector<string>& args);
         virtual void Lock(const vector<string>& args);
         virtual void Unlock(const vector<string>& args);
+        virtual void Equip(const vector<string>& args);
+        virtual void Unequip(const vector<string>& args);
+        virtual void Attack(const vector<string>& args);
 
         Room* getLocation() const;
         

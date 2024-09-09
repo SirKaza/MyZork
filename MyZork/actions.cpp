@@ -17,10 +17,15 @@ Action stringToAction(const string& command) {
 	else if (command == "put") return Action::Put;
 	else if (command == "open") return Action::Open;
 	else if (command == "close") return Action::Close;
+	else if (command == "lock") return Action::Lock;
+	else if (command == "unlock") return Action::Unlock;
+	else if (command == "equip") return Action::Equip;
+	else if (command == "unequip") return Action::Unequip;
+	else if (command == "attack") return Action::Attack;
 	else if (command == "g") return Action::Repeat;
 	else if (command == "shout" || command == "yell" || command == "scream" || command == "" || command == "zork" || command == "jump") return Action::Extra;
 	else if (command == "help" || command == "h") return Action::Help;
-	else throw invalid_argument("Unknown command: " + command);
+	else throw invalid_argument("That's not a verb I recognise.");
 }
 
 string toLowerCase(const string& input) {

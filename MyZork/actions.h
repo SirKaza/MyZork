@@ -26,6 +26,9 @@ enum class Action {
     Close,
     Lock,
     Unlock,
+    Equip,
+    Unequip,
+    Attack,
     Repeat,
     Extra,
     Help
