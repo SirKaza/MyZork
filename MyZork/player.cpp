@@ -36,8 +36,7 @@ bool Player::Go(const string& direction) {
 		Exit* exit = dynamic_cast<Exit*>(exitEntity); // try downcast to Exit
 
 		if (exit != nullptr && exit->getDirection() == dir) {
-			Lockable* lockable = dynamic_cast<Lockable*>(exitEntity); // try downcast to Lockable
-			if (lockable != nullptr) {
+			if (Lockable* lockable = dynamic_cast<Lockable*>(exitEntity)) {
 				if (!lockable->isLocked()) {
 					if (!lockable->isClosed()) { // exit open
 						location = exit->getDestination(); // Update player location
@@ -144,16 +143,13 @@ void Player::Take(const vector<string>& args) { // to inventory
 	else { 
 		bool takeSomething = false;
 		for (string arg : args) {
-			Entity* entity = location->findEntityByNameAndType(arg, TypesEntities::Item); // player only can take items
-			if (entity != nullptr) { // item found
-				Item* item = dynamic_cast<Item*>(entity);
-				if (item != nullptr) {
-					if (item->isPickable()) {
-						takeSomething = true;
-						setContains(item); // item in player inventory
-						location->removeEntity(item); // pop item from room
-						cout << "You took " << item->getName() << ".\n";
-					}
+			Item* item = dynamic_cast<Item*>(location->findEntityByNameAndType(arg, TypesEntities::Item)); // player only can take items
+			if (item != nullptr) {
+				if (item->isPickable()) {
+					takeSomething = true;
+					setContains(item); // item in player inventory
+					location->removeEntity(item); // pop item from room
+					cout << "You took " << item->getName() << ".\n";
 				}
 			}
 		}
@@ -230,44 +226,37 @@ void Player::Put(const vector<string>& args) {
 		return;
 	}
 
-	Entity* entity = nullptr;
+	Item* containerFound = nullptr;
 	for (auto it = argsCopy.begin(); it != argsCopy.end(); ++it) {
-		entity = findEntityByNameAndType(*it, TypesEntities::Item); // find container in inventory
-		Item* containerFound;
-		if (entity != nullptr) { // item found
-			containerFound = dynamic_cast<Item*>(entity); // downcast to Item
-			if (containerFound != nullptr) {
-				if (!containerFound->isClosed()) { 
-					if (containerFound->getIsContainer()) {
-						containerFound->setContains(itemFound);
-						removeEntity(itemFound);
-						cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
-						return;
-					}
-					cout << "That can't contain things.\n";
+		containerFound = dynamic_cast<Item*>(findEntityByNameAndType(*it, TypesEntities::Item)); // find container in inventory
+		if (containerFound != nullptr) {
+			if (!containerFound->isClosed()) { 
+				if (containerFound->getIsContainer()) {
+					containerFound->setContains(itemFound);
+					removeEntity(itemFound);
+					cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
 					return;
 				}
-				cout << containerFound->getName() << " is closed.\n";
+				cout << "That can't contain things.\n";
 				return;
 			}
+			cout << containerFound->getName() << " is closed.\n";
+			return;
 		}
-		entity = location->findEntityByNameAndType(*it, TypesEntities::Item); // find container in room
-		if (entity != nullptr) { // item found
-			containerFound = dynamic_cast<Item*>(entity); // downcast to Item
-			if (containerFound != nullptr) {
-				if (!containerFound->isClosed()) { // open
-					if (containerFound->getIsContainer()) {
-						containerFound->setContains(itemFound);
-						removeEntity(itemFound);
-						cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
-						return;
-					}
-					cout << "That can't contain things.\n";
+		containerFound = dynamic_cast<Item*>(location->findEntityByNameAndType(*it, TypesEntities::Item)); // find container in room
+		if (containerFound != nullptr) {
+			if (!containerFound->isClosed()) { // open
+				if (containerFound->getIsContainer()) {
+					containerFound->setContains(itemFound);
+					removeEntity(itemFound);
+					cout << "You put " << itemFound->getName() << " in " << containerFound->getName() << ".\n";
 					return;
 				}
-				cout << containerFound->getName() << " is closed.\n";
+				cout << "That can't contain things.\n";
 				return;
 			}
+			cout << containerFound->getName() << " is closed.\n";
+			return;
 		}
 	}
 	cout << "You can't see any such thing.\n";
@@ -334,6 +323,7 @@ void Player::Close(const vector<string>& args) {
 		if (entity != nullptr) {
 			foundClose = true;
 			Lockable* close = dynamic_cast<Lockable*>(entity); // downcast to Exit
+
 			if (close != nullptr) {
 				close->Close(entity->getName());
 			}
@@ -342,6 +332,7 @@ void Player::Close(const vector<string>& args) {
 		if (entity != nullptr) {
 			foundClose = true;
 			Lockable* close = dynamic_cast<Lockable*>(entity); // downcast to Exit
+
 			if (close != nullptr) {
 				close->Close(entity->getName());
 			}
