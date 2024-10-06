@@ -10,7 +10,7 @@ class Item :
 {
     public:
         Item(const string& name, const string& description, bool pickable = false, bool isContainer = false, const string& examineText = "", TypesItems itemType = TypesItems::Normal, bool canClose = false, bool closed = false, bool locked = false, const string& key = "");
-        ~Item();
+        virtual ~Item();
 
         void Examine() const;
 

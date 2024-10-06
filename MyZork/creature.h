@@ -14,7 +14,7 @@ class Creature :
 {
     public:
         Creature(const string& name, const string& description, Room* location, const string& examineText = "", Item* weapon = nullptr, Item* shield = nullptr);
-        ~Creature();
+        virtual ~Creature();
 
         virtual void Look() const;
         virtual bool Go(const string& direction);

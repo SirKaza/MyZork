@@ -11,7 +11,7 @@ class Player :
 {
     public:
         Player(const string& name, const string& description, Room* location, const string& examineText = "");
-        ~Player();
+        virtual ~Player();
 
         void Look() const;
         bool Go(const string& direction);

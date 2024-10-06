@@ -13,7 +13,7 @@ class Exit :
 {
     public:
         Exit(const string& name, const string& description, Direction direction, Room* source, Room* destination, const string& examineText, bool canClose = false, bool closed = false, bool locked = false, const string& key = "");
-        ~Exit();
+        virtual ~Exit();
 
         void Examine() const;
 

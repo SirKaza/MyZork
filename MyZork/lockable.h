@@ -8,7 +8,6 @@ class Lockable
 {
     public:
         Lockable(bool canClose = false, bool closed = false, bool locked = false, const string& key = "");
-
         virtual ~Lockable();
 
         bool getCanClose();

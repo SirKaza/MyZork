@@ -16,6 +16,14 @@ Creature::Creature(const string& name, const string& description, Room* location
 }
 
 Creature::~Creature() {
+	if (weapon != nullptr) {
+		cout << "Delete " << weapon->getName() << " from Creature." << endl;
+		delete weapon;
+	}
+	if (shield != nullptr) {
+		cout << "Delete " << shield->getName() << " from Creature." << endl;
+		delete shield;
+	}
 
 }
 

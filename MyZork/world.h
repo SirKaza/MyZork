@@ -11,7 +11,7 @@ class World
 {
 	public:
 		World(const string& playerName);
-		~World();
+		virtual ~World();
 
 		void handleCommand(string& input, bool& gameEnded);
 

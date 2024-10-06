@@ -23,12 +23,6 @@ World::World(const string& playerName) {
 	Room* laboratory = new Room("Laboratory", "You are in a high-tech laboratory.", "The laboratory is full of advanced equipment and the air smells of chemicals. It is cold and it feels like very important experiments are being carried out here.");
 	Room* arena = new Room("Arena", "You are in a vast arena filled with sand and surrounded by walls.", "The sand is extensive, with sand under your feet and stone walls surrounding you. Faint marks can be seen in the sand, hinting at possible previous fights.");
 
-	entities.push_back(picnic);
-	entities.push_back(parking);
-	entities.push_back(forest);
-	entities.push_back(laboratory);
-	entities.push_back(arena);
-
 	// ---- Items ----
 	Item* keychain = new Item("Keychain", "There are 2 keys on the keychain, one is a car key and the other is unknown.", true, false, "The keychain is well-used, with two keys hanging from it. The car key is slightly larger than the other, which has a unique shape.");
 	Item* keycard = new Item("Keycard", "An access card with a strange logo, it is quite dirty as if it had been lost a long time ago.", true, false, "This key card is covered in dirt and the logo is barely visible. It probably opens a door.");
@@ -44,17 +38,6 @@ World::World(const string& playerName) {
 	Item* table = new Item("Table", "An old wooden table, worn by time and use.", false, true, "You look closely at the table and discover a keychain in one of the fissure of the table.");
 	Item* car = new Item("Car", "A dusty old car, parked here for what seems like forever. The paint is chipped and the tires are flat. It looks like it hasn't been driven in a long time.", false, true, "", TypesItems::Normal, true, true, true, keychain->getName());
 
-	entities.push_back(keychain);
-	entities.push_back(keycard);
-	entities.push_back(box);
-	entities.push_back(sword);
-	entities.push_back(shield);
-
-	entities.push_back(leaves);
-	entities.push_back(table);
-	entities.push_back(car);
-
-
 	// ---- Exits ----
 	Exit* road = new Exit("Road", "A paved road.", Direction::North, parking, picnic, "The road is well-maintained and lined with trees, making it a pleasant walk to the north.");
 	Exit* road2 = new Exit("Road", "A paved road.", Direction::South, picnic, parking, "The road is well-maintained and lined with trees, making it a pleasant walk to the south.");
@@ -64,15 +47,6 @@ World::World(const string& playerName) {
 	Exit* stairs = new Exit("Stairs", "Old stone stairs.", Direction::Up, laboratory, forest, "The old stone stairs are worn and uneven. Some stones are chipped, and the surface feels cool to the touch.");
 	Exit* door = new Exit("Door", "A big metal door with a card reader on the side.", Direction::West, laboratory, arena,  "You examine the large metal door closely. The word 'danger' is written on it. It is facing west, who knows what lies on the other side for someone to write that?", true, true, true, keycard->getName());
 	Exit* door2 = new Exit("Door", "A big metal door with a card reader on the side.", Direction::East, arena, laboratory, "", true, false, false, keycard->getName()); // open
-
-	entities.push_back(road);
-	entities.push_back(road2);
-	entities.push_back(trail);
-	entities.push_back(trail2);
-	entities.push_back(hatch);
-	entities.push_back(stairs);
-	entities.push_back(door);
-	entities.push_back(door2);
 
 	parking->setContains(road);
 	picnic->setContains(road2);
@@ -87,9 +61,6 @@ World::World(const string& playerName) {
 	player = new Player(playerName, "An ambitious adventurer.", parking);
 	Creature* boss = new Creature("Ogre", "A huge, burly creature with thick green skin and a menacing presence.", arena, "It seems dangerous, better be well prepared before acting.");
 	
-	entities.push_back(player);
-	entities.push_back(boss);
-
 	// setContains items
 	table->setContains(keychain);
 	picnic->setContains(table);
@@ -105,14 +76,23 @@ World::World(const string& playerName) {
 
 	boss->setWeapon(club);
 	arena->setContains(boss);
+
+	entities.push_back(picnic);
+	entities.push_back(parking);
+	entities.push_back(forest);
+	entities.push_back(laboratory);
+	entities.push_back(arena);
+	entities.push_back(player); 
 }
 
 World::~World() {
 	for (Entity* entity : entities) {
 		if (entity != nullptr) {
+			cout << "Delete " << entity->getName() << " from World." << endl;
 			delete entity;
 		}
 	}
+	entities.clear();
 }
 
 void World::handleCommand(string& input, bool& gameEnded) {

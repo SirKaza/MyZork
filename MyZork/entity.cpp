@@ -14,7 +14,12 @@ Entity::Entity(const string& name, const string& description, const string& exam
 }
 
 Entity::~Entity() {
-
+	for (Entity* entity : contains) {
+		if (entity != nullptr) {
+			cout << "Delete " << entity->getName() << " from Entity." << endl;
+			delete entity;
+		}
+	}
 }	
 
 void Entity::Update() {

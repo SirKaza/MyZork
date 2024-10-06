@@ -28,5 +28,6 @@ int main() {
 	}
 	cout << "Press any key to close...";
 	getline(cin, input); // wait player input
+	delete myWorld;
 	return 0;
 }

@@ -9,7 +9,7 @@ class Room :
 {
     public:
         Room(const string& name, const string& description, const string& examineText);
-        ~Room();
+        virtual ~Room();
 
         void Look() const;
 
